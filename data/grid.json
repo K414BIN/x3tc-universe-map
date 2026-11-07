@@ -1,0 +1,1619 @@
+{
+ "MjI1NDEzMQ": {
+  "id": 2254131,
+  "code": "MjI1NDEzMQ",
+  "name": "Пояс Койпера",
+  "x": 8,
+  "y": 0
+ },
+ "MjgwMzIwMw": {
+  "id": 2803203,
+  "code": "MjgwMzIwMw",
+  "name": "Уран 2",
+  "x": 10,
+  "y": 0
+ },
+ "MzA3NzczOQ": {
+  "id": 3077739,
+  "code": "MzA3NzczOQ",
+  "name": "Титан",
+  "x": 11,
+  "y": 0
+ },
+ "ODQzNDAzOTU": {
+  "id": 84340395,
+  "code": "ODQzNDAzOTU",
+  "name": "Облако Оорта",
+  "x": 7,
+  "y": 1
+ },
+ "ODQ2MTQ5MzE": {
+  "id": 84614931,
+  "code": "ODQ2MTQ5MzE",
+  "name": "Плутон",
+  "x": 8,
+  "y": 1
+ },
+ "ODQ4ODk0Njc": {
+  "id": 84889467,
+  "code": "ODQ4ODk0Njc",
+  "name": "Нептун",
+  "x": 9,
+  "y": 1
+ },
+ "ODUxNjQwMDM": {
+  "id": 85164003,
+  "code": "ODUxNjQwMDM",
+  "name": "Уран",
+  "x": 10,
+  "y": 1
+ },
+ "ODU0Mzg1Mzk": {
+  "id": 85438539,
+  "code": "ODU0Mzg1Mzk",
+  "name": "Сатурн",
+  "x": 11,
+  "y": 1
+ },
+ "ODY1MzY2ODM": {
+  "id": 86536683,
+  "code": "ODY1MzY2ODM",
+  "name": "Сатурн 2",
+  "x": 15,
+  "y": 1
+ },
+ "ODY4MTEyMTk": {
+  "id": 86811219,
+  "code": "ODY4MTEyMTk",
+  "name": "Сатурн 3",
+  "x": 16,
+  "y": 1
+ },
+ "ODU3MTMwNzU": {
+  "id": 85713075,
+  "code": "ODU3MTMwNzU",
+  "name": "Меркурий",
+  "x": 12,
+  "y": 1
+ },
+ "MzMxNDIyNzk1": {
+  "id": 331422795,
+  "code": "MzMxNDIyNzk1",
+  "name": "Неизвестный сектор",
+  "x": 7,
+  "y": 4
+ },
+ "MzMxNjk3MzMx": {
+  "id": 331697331,
+  "code": "MzMxNjk3MzMx",
+  "name": "Неизвестный сектор",
+  "x": 8,
+  "y": 4
+ },
+ "MTY3NTI0ODAz": {
+  "id": 167524803,
+  "code": "MTY3NTI0ODAz",
+  "name": "Уран 3",
+  "x": 10,
+  "y": 2
+ },
+ "MTY3Nzk5MzM5": {
+  "id": 167799339,
+  "code": "MTY3Nzk5MzM5",
+  "name": "Юпитер",
+  "x": 11,
+  "y": 2
+ },
+ "MTY4ODk3NDgz": {
+  "id": 168897483,
+  "code": "MTY4ODk3NDgz",
+  "name": "Юпитер 2",
+  "x": 15,
+  "y": 2
+ },
+ "MTY5MTcyMDE5": {
+  "id": 169172019,
+  "code": "MTY5MTcyMDE5",
+  "name": "Юпитер 3",
+  "x": 16,
+  "y": 2
+ },
+ "MTY4MDczODc1": {
+  "id": 168073875,
+  "code": "MTY4MDczODc1",
+  "name": "Венера",
+  "x": 12,
+  "y": 2
+ },
+ "MTY4MzQ4NDEx": {
+  "id": 168348411,
+  "code": "MTY4MzQ4NDEx",
+  "name": "Луна",
+  "x": 13,
+  "y": 2
+ },
+ "NDEzNzgzNTk1": {
+  "id": 413783595,
+  "code": "NDEzNzgzNTk1",
+  "name": "Неизвестный сектор",
+  "x": 7,
+  "y": 5
+ },
+ "NDE0MDU4MTMx": {
+  "id": 414058131,
+  "code": "NDE0MDU4MTMx",
+  "name": "Неизвестный сектор",
+  "x": 8,
+  "y": 5
+ },
+ "MjUwMTYwMTM5": {
+  "id": 250160139,
+  "code": "MjUwMTYwMTM5",
+  "name": "Пояс астероидов",
+  "x": 11,
+  "y": 3
+ },
+ "MjUwNDM0Njc1": {
+  "id": 250434675,
+  "code": "MjUwNDM0Njc1",
+  "name": "Марс",
+  "x": 12,
+  "y": 3
+ },
+ "MjUwNzA5MjEx": {
+  "id": 250709211,
+  "code": "MjUwNzA5MjEx",
+  "name": "Земля",
+  "x": 13,
+  "y": 3
+ },
+ "MzMzMDcwMDEx": {
+  "id": 333070011,
+  "code": "MzMzMDcwMDEx",
+  "name": "Край еретиков",
+  "x": 13,
+  "y": 4
+ },
+ "NTc4NDM": {
+  "id": 57843,
+  "code": "NTc4NDM",
+  "name": "Королевский тупик",
+  "x": 0,
+  "y": 0
+ },
+ "MzMyMzc5": {
+  "id": 332379,
+  "code": "MzMyMzc5",
+  "name": "Дрейф Ролка",
+  "x": 1,
+  "y": 0
+ },
+ "NjA2OTE1": {
+  "id": 606915,
+  "code": "NjA2OTE1",
+  "name": "Пространство королевы",
+  "x": 2,
+  "y": 0
+ },
+ "ODgxNDUx": {
+  "id": 881451,
+  "code": "ODgxNDUx",
+  "name": "Граница Менелайи",
+  "x": 3,
+  "y": 0
+ },
+ "MTE1NTk4Nw": {
+  "id": 1155987,
+  "code": "MTE1NTk4Nw",
+  "name": "Баксоид Босса",
+  "x": 4,
+  "y": 0
+ },
+ "MTQzMDUyMw": {
+  "id": 1430523,
+  "code": "MTQzMDUyMw",
+  "name": "Доход Телади",
+  "x": 5,
+  "y": 0
+ },
+ "MTcwNTA1OQ": {
+  "id": 1705059,
+  "code": "MTcwNTA1OQ",
+  "name": "Семья Ви",
+  "x": 6,
+  "y": 0
+ },
+ "MzYyNjgxMQ": {
+  "id": 3626811,
+  "code": "MzYyNjgxMQ",
+  "name": "Убежище",
+  "x": 13,
+  "y": 0
+ },
+ "NDQ1MDQxOQ": {
+  "id": 4450419,
+  "code": "NDQ1MDQxOQ",
+  "name": "Неизвестный сектор",
+  "x": 16,
+  "y": 0
+ },
+ "NDcyNDk1NQ": {
+  "id": 4724955,
+  "code": "NDcyNDk1NQ",
+  "name": "Ксенонский сектор 534",
+  "x": 17,
+  "y": 0
+ },
+ "NTI3NDAyNw": {
+  "id": 5274027,
+  "code": "NTI3NDAyNw",
+  "name": "Ксенонский сектор 596",
+  "x": 19,
+  "y": 0
+ },
+ "ODI0MTg2NDM": {
+  "id": 82418643,
+  "code": "ODI0MTg2NDM",
+  "name": "Три мира",
+  "x": 0,
+  "y": 1
+ },
+ "ODI2OTMxNzk": {
+  "id": 82693179,
+  "code": "ODI2OTMxNzk",
+  "name": "Круг силы",
+  "x": 1,
+  "y": 1
+ },
+ "ODI5Njc3MTU": {
+  "id": 82967715,
+  "code": "ODI5Njc3MTU",
+  "name": "Мемориал Антигона",
+  "x": 2,
+  "y": 1
+ },
+ "ODMyNDIyNTE": {
+  "id": 83242251,
+  "code": "ODMyNDIyNTE",
+  "name": "Судьба Ролка",
+  "x": 3,
+  "y": 1
+ },
+ "ODM1MTY3ODc": {
+  "id": 83516787,
+  "code": "ODM1MTY3ODc",
+  "name": "Доля прибыли",
+  "x": 4,
+  "y": 1
+ },
+ "ODM3OTEzMjM": {
+  "id": 83791323,
+  "code": "ODM3OTEzMjM",
+  "name": "Сейзвел",
+  "x": 5,
+  "y": 1
+ },
+ "ODQwNjU4NTk": {
+  "id": 84065859,
+  "code": "ODQwNjU4NTk",
+  "name": "Семья Зейн",
+  "x": 6,
+  "y": 1
+ },
+ "ODU5ODc2MTE": {
+  "id": 85987611,
+  "code": "ODU5ODc2MTE",
+  "name": "Фортуна акционеров",
+  "x": 13,
+  "y": 1
+ },
+ "ODYyNjIxNDc": {
+  "id": 86262147,
+  "code": "ODYyNjIxNDc",
+  "name": "Шахты богатства",
+  "x": 14,
+  "y": 1
+ },
+ "ODcwODU3NTU": {
+  "id": 87085755,
+  "code": "ODcwODU3NTU",
+  "name": "Гетсу Фане",
+  "x": 17,
+  "y": 1
+ },
+ "ODczNjAyOTE": {
+  "id": 87360291,
+  "code": "ODczNjAyOTE",
+  "name": "Рай Менелайи",
+  "x": 18,
+  "y": 1
+ },
+ "ODc2MzQ4Mjc": {
+  "id": 87634827,
+  "code": "ODc2MzQ4Mjc",
+  "name": "Ксенонский сектор 597",
+  "x": 19,
+  "y": 1
+ },
+ "MTY0Nzc5NDQz": {
+  "id": 164779443,
+  "code": "MTY0Nzc5NDQz",
+  "name": "Северо-западное облако",
+  "x": 0,
+  "y": 2
+ },
+ "MTY1MDUzOTc5": {
+  "id": 165053979,
+  "code": "MTY1MDUzOTc5",
+  "name": "Туманность Херрона",
+  "x": 1,
+  "y": 2
+ },
+ "MTY1MzI4NTE1": {
+  "id": 165328515,
+  "code": "MTY1MzI4NTE1",
+  "name": "Берлога",
+  "x": 2,
+  "y": 2
+ },
+ "MTY1NjAzMDUx": {
+  "id": 165603051,
+  "code": "MTY1NjAzMDUx",
+  "name": "Облака Атрейи",
+  "x": 3,
+  "y": 2
+ },
+ "MTY1ODc3NTg3": {
+  "id": 165877587,
+  "code": "MTY1ODc3NTg3",
+  "name": "Наркотический дрейф",
+  "x": 4,
+  "y": 2
+ },
+ "MTY2MTUyMTIz": {
+  "id": 166152123,
+  "code": "MTY2MTUyMTIz",
+  "name": "Больший доход",
+  "x": 5,
+  "y": 2
+ },
+ "MTY2NDI2NjU5": {
+  "id": 166426659,
+  "code": "MTY2NDI2NjU5",
+  "name": "Гордость Турука",
+  "x": 6,
+  "y": 2
+ },
+ "MTY2NzAxMTk1": {
+  "id": 166701195,
+  "code": "MTY2NzAxMTk1",
+  "name": "Гордость семей",
+  "x": 7,
+  "y": 2
+ },
+ "MTY2OTc1NzMx": {
+  "id": 166975731,
+  "code": "MTY2OTc1NzMx",
+  "name": "Мощь Ронкар",
+  "x": 8,
+  "y": 2
+ },
+ "MTY3MjUwMjY3": {
+  "id": 167250267,
+  "code": "MTY3MjUwMjY3",
+  "name": "Пристанище Патриарха",
+  "x": 9,
+  "y": 2
+ },
+ "MTY4NjIyOTQ3": {
+  "id": 168622947,
+  "code": "MTY4NjIyOTQ3",
+  "name": "Родина возможности",
+  "x": 14,
+  "y": 2
+ },
+ "MTY5NzIxMDkx": {
+  "id": 169721091,
+  "code": "MTY5NzIxMDkx",
+  "name": "Голубое пламя",
+  "x": 18,
+  "y": 2
+ },
+ "MjQ3MTQwMjQz": {
+  "id": 247140243,
+  "code": "MjQ3MTQwMjQz",
+  "name": "Луна Ринго",
+  "x": 0,
+  "y": 3
+ },
+ "MjQ3NDE0Nzc5": {
+  "id": 247414779,
+  "code": "MjQ3NDE0Nzc5",
+  "name": "Аргон Прайм",
+  "x": 1,
+  "y": 3
+ },
+ "MjQ3Njg5MzE1": {
+  "id": 247689315,
+  "code": "MjQ3Njg5MzE1",
+  "name": "Стена",
+  "x": 2,
+  "y": 3
+ },
+ "MjQ3OTYzODUx": {
+  "id": 247963851,
+  "code": "MjQ3OTYzODUx",
+  "name": "Легенда Фарнема",
+  "x": 3,
+  "y": 3
+ },
+ "MjQ4MjM4Mzg3": {
+  "id": 248238387,
+  "code": "MjQ4MjM4Mzg3",
+  "name": "Радость Балы Ги",
+  "x": 4,
+  "y": 3
+ },
+ "MjQ4NTEyOTIz": {
+  "id": 248512923,
+  "code": "MjQ4NTEyOTIz",
+  "name": "Постоянный доход",
+  "x": 5,
+  "y": 3
+ },
+ "MjQ4Nzg3NDU5": {
+  "id": 248787459,
+  "code": "MjQ4Nzg3NDU5",
+  "name": "Огонь Ронкар",
+  "x": 6,
+  "y": 3
+ },
+ "MjQ5MDYxOTk1": {
+  "id": 249061995,
+  "code": "MjQ5MDYxOTk1",
+  "name": "Облака Ронкар",
+  "x": 7,
+  "y": 3
+ },
+ "MjQ5MzM2NTMx": {
+  "id": 249336531,
+  "code": "MjQ5MzM2NTMx",
+  "name": "Солнце Тарка",
+  "x": 8,
+  "y": 3
+ },
+ "MjQ5NjExMDY3": {
+  "id": 249611067,
+  "code": "MjQ5NjExMDY3",
+  "name": "Поражение Чо",
+  "x": 9,
+  "y": 3
+ },
+ "MjUwOTgzNzQ3": {
+  "id": 250983747,
+  "code": "MjUwOTgzNzQ3",
+  "name": "Семья Ткр",
+  "x": 14,
+  "y": 3
+ },
+ "MjUxMjU4Mjgz": {
+  "id": 251258283,
+  "code": "MjUxMjU4Mjgz",
+  "name": "Лишение Ткр",
+  "x": 15,
+  "y": 3
+ },
+ "MjUxNTMyODE5": {
+  "id": 251532819,
+  "code": "MjUxNTMyODE5",
+  "name": "Побег Гинн",
+  "x": 16,
+  "y": 3
+ },
+ "MjUxODA3MzU1": {
+  "id": 251807355,
+  "code": "MjUxODA3MzU1",
+  "name": "Радость Хила",
+  "x": 17,
+  "y": 3
+ },
+ "MjUyMDgxODkx": {
+  "id": 252081891,
+  "code": "MjUyMDgxODkx",
+  "name": "Океан фантазии",
+  "x": 18,
+  "y": 3
+ },
+ "MzI5NTAxMDQz": {
+  "id": 329501043,
+  "code": "MzI5NTAxMDQz",
+  "name": "Красное сияние",
+  "x": 0,
+  "y": 4
+ },
+ "MzI5Nzc1NTc5": {
+  "id": 329775579,
+  "code": "MzI5Nzc1NTc5",
+  "name": "Обитель света",
+  "x": 1,
+  "y": 4
+ },
+ "MzMwMDUwMTE1": {
+  "id": 330050115,
+  "code": "MzMwMDUwMTE1",
+  "name": "Президентский рубеж",
+  "x": 2,
+  "y": 4
+ },
+ "MzMwMzI0NjUx": {
+  "id": 330324651,
+  "code": "MzMwMzI0NjUx",
+  "name": "Фортуна Елены",
+  "x": 3,
+  "y": 4
+ },
+ "MzMwNTk5MTg3": {
+  "id": 330599187,
+  "code": "MzMwNTk5MTg3",
+  "name": "Договор Олманкетцлата",
+  "x": 4,
+  "y": 4
+ },
+ "MzMwODczNzIz": {
+  "id": 330873723,
+  "code": "MzMwODczNzIz",
+  "name": "Дух Босса",
+  "x": 5,
+  "y": 4
+ },
+ "MzMxMTQ4MjU5": {
+  "id": 331148259,
+  "code": "MzMxMTQ4MjU5",
+  "name": "Семья Ронкар",
+  "x": 6,
+  "y": 4
+ },
+ "MzMxOTcxODY3": {
+  "id": 331971867,
+  "code": "MzMxOTcxODY3",
+  "name": "Цитадель Патриарха",
+  "x": 9,
+  "y": 4
+ },
+ "MzMyMjQ2NDAz": {
+  "id": 332246403,
+  "code": "MzMyMjQ2NDAz",
+  "name": "Двое Великих",
+  "x": 10,
+  "y": 4
+ },
+ "MzMzODkzNjE5": {
+  "id": 333893619,
+  "code": "MzMzODkzNjE5",
+  "name": "Семья Ню",
+  "x": 16,
+  "y": 4
+ },
+ "MzM0MTY4MTU1": {
+  "id": 334168155,
+  "code": "MzM0MTY4MTU1",
+  "name": "Обман Ню",
+  "x": 17,
+  "y": 4
+ },
+ "MzM0NDQyNjkx": {
+  "id": 334442691,
+  "code": "MzM0NDQyNjkx",
+  "name": "Семья Райк",
+  "x": 18,
+  "y": 4
+ },
+ "NDExODYxODQz": {
+  "id": 411861843,
+  "code": "NDExODYxODQz",
+  "name": "Юго-западное облако",
+  "x": 0,
+  "y": 5
+ },
+ "NDEyMTM2Mzc5": {
+  "id": 412136379,
+  "code": "NDEyMTM2Mzc5",
+  "name": "Пояс руды",
+  "x": 1,
+  "y": 5
+ },
+ "NDEyNDEwOTE1": {
+  "id": 412410915,
+  "code": "NDEyNDEwOTE1",
+  "name": "Юго-восточное облако",
+  "x": 2,
+  "y": 5
+ },
+ "NDEyNjg1NDUx": {
+  "id": 412685451,
+  "code": "NDEyNjg1NDUx",
+  "name": "Сплитский огонь",
+  "x": 3,
+  "y": 5
+ },
+ "NDEyOTU5OTg3": {
+  "id": 412959987,
+  "code": "NDEyOTU5OTg3",
+  "name": "Триумф Бреннана",
+  "x": 4,
+  "y": 5
+ },
+ "NDEzMjM0NTIz": {
+  "id": 413234523,
+  "code": "NDEzMjM0NTIz",
+  "name": "Гордость Корпорации",
+  "x": 5,
+  "y": 5
+ },
+ "NDEzNTA5MDU5": {
+  "id": 413509059,
+  "code": "NDEzNTA5MDU5",
+  "name": "Борода Турука",
+  "x": 6,
+  "y": 5
+ },
+ "NDE0NjA3MjAz": {
+  "id": 414607203,
+  "code": "NDE0NjA3MjAz",
+  "name": "Центр дохода Альфа",
+  "x": 10,
+  "y": 5
+ },
+ "NDE0ODgxNzM5": {
+  "id": 414881739,
+  "code": "NDE0ODgxNzM5",
+  "name": "Штаб PTNI",
+  "x": 11,
+  "y": 5
+ },
+ "NDE1MTU2Mjc1": {
+  "id": 415156275,
+  "code": "NDE1MTU2Mjc1",
+  "name": "Неизвестный сектор",
+  "x": 12,
+  "y": 5
+ },
+ "NDE1NDMwODEx": {
+  "id": 415430811,
+  "code": "NDE1NDMwODEx",
+  "name": "Круг труда",
+  "x": 13,
+  "y": 5
+ },
+ "NDE1NzA1MzQ3": {
+  "id": 415705347,
+  "code": "NDE1NzA1MzQ3",
+  "name": "Элизиум света",
+  "x": 14,
+  "y": 5
+ },
+ "NDE1OTc5ODgz": {
+  "id": 415979883,
+  "code": "NDE1OTc5ODgz",
+  "name": "Ксенонский сектор 472",
+  "x": 15,
+  "y": 5
+ },
+ "NDE2MjU0NDE5": {
+  "id": 416254419,
+  "code": "NDE2MjU0NDE5",
+  "name": "Бездна Тина",
+  "x": 16,
+  "y": 5
+ },
+ "NDE2ODAzNDkx": {
+  "id": 416803491,
+  "code": "NDE2ODAzNDkx",
+  "name": "Семья Зирт",
+  "x": 18,
+  "y": 5
+ },
+ "NDE3MDc4MDI3": {
+  "id": 417078027,
+  "code": "NDE3MDc4MDI3",
+  "name": "Владение Зирт",
+  "x": 19,
+  "y": 5
+ },
+ "NDE3MzUyNTYz": {
+  "id": 417352563,
+  "code": "NDE3MzUyNTYz",
+  "name": "Неизвестный сектор",
+  "x": 20,
+  "y": 5
+ },
+ "NDE3NjI3MDk5": {
+  "id": 417627099,
+  "code": "NDE3NjI3MDk5",
+  "name": "Ксенонский сектор 695",
+  "x": 21,
+  "y": 5
+ },
+ "NDk0MjIyNjQz": {
+  "id": 494222643,
+  "code": "NDk0MjIyNjQz",
+  "name": "Императорские шахты",
+  "x": 0,
+  "y": 6
+ },
+ "NDk0NDk3MTc5": {
+  "id": 494497179,
+  "code": "NDk0NDk3MTc5",
+  "name": "Паранид Прайм",
+  "x": 1,
+  "y": 6
+ },
+ "NDk0NzcxNzE1": {
+  "id": 494771715,
+  "code": "NDk0NzcxNzE1",
+  "name": "Кольца жреца",
+  "x": 2,
+  "y": 6
+ },
+ "NDk1MDQ2MjUx": {
+  "id": 495046251,
+  "code": "NDk1MDQ2MjUx",
+  "name": "Жалость жреца",
+  "x": 3,
+  "y": 6
+ },
+ "NDk1MzIwNzg3": {
+  "id": 495320787,
+  "code": "NDk1MzIwNzg3",
+  "name": "Шанс Данны",
+  "x": 4,
+  "y": 6
+ },
+ "NDk1NTk1MzIz": {
+  "id": 495595323,
+  "code": "NDk1NTk1MzIz",
+  "name": "Мемориал Нопилео",
+  "x": 5,
+  "y": 6
+ },
+ "NDk1ODY5ODU5": {
+  "id": 495869859,
+  "code": "NDk1ODY5ODU5",
+  "name": "Вера Хатикваха",
+  "x": 6,
+  "y": 6
+ },
+ "NDk2MTQ0Mzk1": {
+  "id": 496144395,
+  "code": "NDk2MTQ0Mzk1",
+  "name": "Холм Аладны",
+  "x": 7,
+  "y": 6
+ },
+ "NDk2NDE4OTMx": {
+  "id": 496418931,
+  "code": "NDk2NDE4OTMx",
+  "name": "Маяк Акилы",
+  "x": 8,
+  "y": 6
+ },
+ "NDk3MjQyNTM5": {
+  "id": 497242539,
+  "code": "NDk3MjQyNTM5",
+  "name": "Зеленая чешуйка",
+  "x": 11,
+  "y": 6
+ },
+ "NDk3NTE3MDc1": {
+  "id": 497517075,
+  "code": "NDk3NTE3MDc1",
+  "name": "Убежище Наяны",
+  "x": 12,
+  "y": 6
+ },
+ "NDk3NzkxNjEx": {
+  "id": 497791611,
+  "code": "NDk3NzkxNjEx",
+  "name": "Омикрон Лиры",
+  "x": 13,
+  "y": 6
+ },
+ "NDk4MDY2MTQ3": {
+  "id": 498066147,
+  "code": "NDk4MDY2MTQ3",
+  "name": "Сундук сокровищ",
+  "x": 14,
+  "y": 6
+ },
+ "NDk4MzQwNjgz": {
+  "id": 498340683,
+  "code": "NDk4MzQwNjgz",
+  "name": "Черное солнце",
+  "x": 15,
+  "y": 6
+ },
+ "NDk5NDM4ODI3": {
+  "id": 499438827,
+  "code": "NDk5NDM4ODI3",
+  "name": "Ксенонский сектор 598",
+  "x": 19,
+  "y": 6
+ },
+ "NDk5NzEzMzYz": {
+  "id": 499713363,
+  "code": "NDk5NzEzMzYz",
+  "name": "Ксенонский сектор 627",
+  "x": 20,
+  "y": 6
+ },
+ "NDk5OTg3ODk5": {
+  "id": 499987899,
+  "code": "NDk5OTg3ODk5",
+  "name": "Ксенонское ядро 023",
+  "x": 21,
+  "y": 6
+ },
+ "NTc2NTgzNDQz": {
+  "id": 576583443,
+  "code": "NTc2NTgzNDQz",
+  "name": "Шпора дикаря",
+  "x": 0,
+  "y": 7
+ },
+ "NTc2ODU3OTc5": {
+  "id": 576857979,
+  "code": "NTc2ODU3OTc5",
+  "name": "Граница Империи",
+  "x": 1,
+  "y": 7
+ },
+ "NTc3MTMyNTE1": {
+  "id": 577132515,
+  "code": "NTc3MTMyNTE1",
+  "name": "Владения герцога",
+  "x": 2,
+  "y": 7
+ },
+ "NTc3NDA3MDUx": {
+  "id": 577407051,
+  "code": "NTc3NDA3MDUx",
+  "name": "Императорский отрог",
+  "x": 3,
+  "y": 7
+ },
+ "NTc3NjgxNTg3": {
+  "id": 577681587,
+  "code": "NTc3NjgxNTg3",
+  "name": "Свободный удел",
+  "x": 4,
+  "y": 7
+ },
+ "NTc3OTU2MTIz": {
+  "id": 577956123,
+  "code": "NTc3OTU2MTIz",
+  "name": "Ксенонский сектор 101",
+  "x": 5,
+  "y": 7
+ },
+ "NTc4NTA1MTk1": {
+  "id": 578505195,
+  "code": "NTc4NTA1MTk1",
+  "name": "Свет сердца",
+  "x": 7,
+  "y": 7
+ },
+ "NTc4Nzc5NzMx": {
+  "id": 578779731,
+  "code": "NTc4Nzc5NzMx",
+  "name": "Обитель легенды",
+  "x": 8,
+  "y": 7
+ },
+ "NTc5MzI4ODAz": {
+  "id": 579328803,
+  "code": "NTc5MzI4ODAz",
+  "name": "Восемнадцать миллиардов",
+  "x": 10,
+  "y": 7
+ },
+ "NTc5NjAzMzM5": {
+  "id": 579603339,
+  "code": "NTc5NjAzMzM5",
+  "name": "Ксенонский сектор 347",
+  "x": 11,
+  "y": 7
+ },
+ "NTgwNDI2OTQ3": {
+  "id": 580426947,
+  "code": "NTgwNDI2OTQ3",
+  "name": "Неизвестный сектор",
+  "x": 14,
+  "y": 7
+ },
+ "NTgwNzAxNDgz": {
+  "id": 580701483,
+  "code": "NTgwNzAxNDgz",
+  "name": "Путешествие Натана",
+  "x": 15,
+  "y": 7
+ },
+ "NTgwOTc2MDE5": {
+  "id": 580976019,
+  "code": "NTgwOTc2MDE5",
+  "name": "Пустоши",
+  "x": 16,
+  "y": 7
+ },
+ "NTgxMjUwNTU1": {
+  "id": 581250555,
+  "code": "NTgxMjUwNTU1",
+  "name": "Полночная звезда",
+  "x": 17,
+  "y": 7
+ },
+ "NTgxNTI1MDkx": {
+  "id": 581525091,
+  "code": "NTgxNTI1MDkx",
+  "name": "Пояс Агиляр",
+  "x": 18,
+  "y": 7
+ },
+ "NTgxNzk5NjI3": {
+  "id": 581799627,
+  "code": "NTgxNzk5NjI3",
+  "name": "Большая биржа",
+  "x": 19,
+  "y": 7
+ },
+ "NTgyMDc0MTYz": {
+  "id": 582074163,
+  "code": "NTgyMDc0MTYz",
+  "name": "Слёзы скупости",
+  "x": 20,
+  "y": 7
+ },
+ "NjU4OTQ0MjQz": {
+  "id": 658944243,
+  "code": "NjU4OTQ0MjQz",
+  "name": "Буря Окракока",
+  "x": 0,
+  "y": 8
+ },
+ "NjU5MjE4Nzc5": {
+  "id": 659218779,
+  "code": "NjU5MjE4Nzc5",
+  "name": "Пустошь проповедников",
+  "x": 1,
+  "y": 8
+ },
+ "NjU5NzY3ODUx": {
+  "id": 659767851,
+  "code": "NjU5NzY3ODUx",
+  "name": "Царство Понтифика",
+  "x": 3,
+  "y": 8
+ },
+ "NjYwMzE2OTIz": {
+  "id": 660316923,
+  "code": "NjYwMzE2OTIz",
+  "name": "Легкая вода",
+  "x": 5,
+  "y": 8
+ },
+ "NjYwODY1OTk1": {
+  "id": 660865995,
+  "code": "NjYwODY1OTk1",
+  "name": "Монталаар",
+  "x": 7,
+  "y": 8
+ },
+ "NjYxMTQwNTMx": {
+  "id": 661140531,
+  "code": "NjYxMTQwNTMx",
+  "name": "Неизвестный сектор",
+  "x": 8,
+  "y": 8
+ },
+ "NjYxNDE1MDY3": {
+  "id": 661415067,
+  "code": "NjYxNDE1MDY3",
+  "name": "Новый доход",
+  "x": 9,
+  "y": 8
+ },
+ "NjYxNjg5NjAz": {
+  "id": 661689603,
+  "code": "NjYxNjg5NjAz",
+  "name": "Ианамус Зура",
+  "x": 10,
+  "y": 8
+ },
+ "NjYxOTY0MTM5": {
+  "id": 661964139,
+  "code": "NjYxOTY0MTM5",
+  "name": "Рассуждение о вечности",
+  "x": 11,
+  "y": 8
+ },
+ "NjYyNTEzMjEx": {
+  "id": 662513211,
+  "code": "NjYyNTEzMjEx",
+  "name": "Неизвестный сектор",
+  "x": 13,
+  "y": 8
+ },
+ "NjYyNzg3NzQ3": {
+  "id": 662787747,
+  "code": "NjYyNzg3NzQ3",
+  "name": "Аргонский сектор М148",
+  "x": 14,
+  "y": 8
+ },
+ "NjYzMzM2ODE5": {
+  "id": 663336819,
+  "code": "NjYzMzM2ODE5",
+  "name": "Меж миров",
+  "x": 16,
+  "y": 8
+ },
+ "NjY0MTYwNDI3": {
+  "id": 664160427,
+  "code": "NjY0MTYwNDI3",
+  "name": "Приют торговца",
+  "x": 19,
+  "y": 8
+ },
+ "NzQxMzA1MDQz": {
+  "id": 741305043,
+  "code": "NzQxMzA1MDQz",
+  "name": "Пустоши сенатора",
+  "x": 0,
+  "y": 9
+ },
+ "NzQxNTc5NTc5": {
+  "id": 741579579,
+  "code": "NzQxNTc5NTc5",
+  "name": "Видение герцога",
+  "x": 1,
+  "y": 9
+ },
+ "NzQxODU0MTE1": {
+  "id": 741854115,
+  "code": "NzQxODU0MTE1",
+  "name": "Мудрость Императора",
+  "x": 2,
+  "y": 9
+ },
+ "NzQyMTI4NjUx": {
+  "id": 742128651,
+  "code": "NzQyMTI4NjUx",
+  "name": "Святилище Троицы",
+  "x": 3,
+  "y": 9
+ },
+ "NzQyNDAzMTg3": {
+  "id": 742403187,
+  "code": "NzQyNDAzMTg3",
+  "name": "Приют проповедника",
+  "x": 4,
+  "y": 9
+ },
+ "NzQyNjc3NzIz": {
+  "id": 742677723,
+  "code": "NzQyNjc3NzIz",
+  "name": "Берег бесконечности",
+  "x": 5,
+  "y": 9
+ },
+ "NzQyOTUyMjU5": {
+  "id": 742952259,
+  "code": "NzQyOTUyMjU5",
+  "name": "Планеты удачи",
+  "x": 6,
+  "y": 9
+ },
+ "NzQzMjI2Nzk1": {
+  "id": 743226795,
+  "code": "NzQzMjI2Nzk1",
+  "name": "Наследие Ролка",
+  "x": 7,
+  "y": 9
+ },
+ "NzQzNTAxMzMx": {
+  "id": 743501331,
+  "code": "NzQzNTAxMzMx",
+  "name": "Великий каньон",
+  "x": 8,
+  "y": 9
+ },
+ "NzQzNzc1ODY3": {
+  "id": 743775867,
+  "code": "NzQzNzc1ODY3",
+  "name": "Сомнение Босса",
+  "x": 9,
+  "y": 9
+ },
+ "NzQ0MzI0OTM5": {
+  "id": 744324939,
+  "code": "NzQ0MzI0OTM5",
+  "name": "Склад добычи",
+  "x": 11,
+  "y": 9
+ },
+ "NzQ1NDIzMDgz": {
+  "id": 745423083,
+  "code": "NzQ1NDIzMDgz",
+  "name": "Зем. Неизвестный сектор 2",
+  "x": 15,
+  "y": 9
+ },
+ "NzQ1OTcyMTU1": {
+  "id": 745972155,
+  "code": "NzQ1OTcyMTU1",
+  "name": "Звезда Гайи",
+  "x": 17,
+  "y": 9
+ },
+ "NzQ2MjQ2Njkx": {
+  "id": 746246691,
+  "code": "NzQ2MjQ2Njkx",
+  "name": "Неизвестный сектор",
+  "x": 18,
+  "y": 9
+ },
+ "NzQ2NTIxMjI3": {
+  "id": 746521227,
+  "code": "NzQ2NTIxMjI3",
+  "name": "Мальстрим",
+  "x": 19,
+  "y": 9
+ },
+ "ODIzNjY1ODQz": {
+  "id": 823665843,
+  "code": "ODIzNjY1ODQz",
+  "name": "Буря пряхи",
+  "x": 0,
+  "y": 10
+ },
+ "ODI0NDg5NDUx": {
+  "id": 824489451,
+  "code": "ODI0NDg5NDUx",
+  "name": "Безнадежный долг",
+  "x": 3,
+  "y": 10
+ },
+ "ODI1NTg3NTk1": {
+  "id": 825587595,
+  "code": "ODI1NTg3NTk1",
+  "name": "Крестовый поход Ганна",
+  "x": 7,
+  "y": 10
+ },
+ "ODI2MTM2NjY3": {
+  "id": 826136667,
+  "code": "ODI2MTM2NjY3",
+  "name": "Наследие ЛуМанчкСтрата",
+  "x": 9,
+  "y": 10
+ },
+ "ODI2Njg1NzM5": {
+  "id": 826685739,
+  "code": "ODI2Njg1NzM5",
+  "name": "Роща космотравки",
+  "x": 11,
+  "y": 10
+ },
+ "ODI3MjM0ODEx": {
+  "id": 827234811,
+  "code": "ODI3MjM0ODEx",
+  "name": "Альдрин",
+  "x": 13,
+  "y": 10
+ },
+ "ODI3NTA5MzQ3": {
+  "id": 827509347,
+  "code": "ODI3NTA5MzQ3",
+  "name": "Альдрин 2",
+  "x": 14,
+  "y": 10
+ },
+ "ODI3NzgzODgz": {
+  "id": 827783883,
+  "code": "ODI3NzgzODgz",
+  "name": "Зем. Неизвестный сектор 1",
+  "x": 15,
+  "y": 10
+ },
+ "ODI4MDU4NDE5": {
+  "id": 828058419,
+  "code": "ODI4MDU4NDE5",
+  "name": "Зем. Неизвестный сектор 3",
+  "x": 16,
+  "y": 10
+ },
+ "ODI4MzMyOTU1": {
+  "id": 828332955,
+  "code": "ODI4MzMyOTU1",
+  "name": "Ксенонский сектор",
+  "x": 17,
+  "y": 10
+ },
+ "ODI4NjA3NDkx": {
+  "id": 828607491,
+  "code": "ODI4NjA3NDkx",
+  "name": "Неизвестный сектор",
+  "x": 18,
+  "y": 10
+ },
+ "OTA2MzAxMTc5": {
+  "id": 906301179,
+  "code": "OTA2MzAxMTc5",
+  "name": "Крестовый поход Рай",
+  "x": 1,
+  "y": 11
+ },
+ "OTA2NTc1NzE1": {
+  "id": 906575715,
+  "code": "OTA2NTc1NzE1",
+  "name": "Желание Рай",
+  "x": 2,
+  "y": 11
+ },
+ "OTA2ODUwMjUx": {
+  "id": 906850251,
+  "code": "OTA2ODUwMjUx",
+  "name": "Министерство финансов",
+  "x": 3,
+  "y": 11
+ },
+ "OTA3MTI0Nzg3": {
+  "id": 907124787,
+  "code": "OTA3MTI0Nzg3",
+  "name": "Суд Ронкар",
+  "x": 4,
+  "y": 11
+ },
+ "OTA3NjczODU5": {
+  "id": 907673859,
+  "code": "OTA3NjczODU5",
+  "name": "Конец ясности",
+  "x": 6,
+  "y": 11
+ },
+ "OTA3OTQ4Mzk1": {
+  "id": 907948395,
+  "code": "OTA3OTQ4Mzk1",
+  "name": "Третье возвращение",
+  "x": 7,
+  "y": 11
+ },
+ "OTA4MjIyOTMx": {
+  "id": 908222931,
+  "code": "OTA4MjIyOTMx",
+  "name": "Конец проклятия",
+  "x": 8,
+  "y": 11
+ },
+ "OTA4NDk3NDY3": {
+  "id": 908497467,
+  "code": "OTA4NDk3NDY3",
+  "name": "Убежище Ми Тона",
+  "x": 9,
+  "y": 11
+ },
+ "OTEwNDE5MjE5": {
+  "id": 910419219,
+  "code": "OTEwNDE5MjE5",
+  "name": "Хаакский сектор 931",
+  "x": 16,
+  "y": 11
+ },
+ "OTg4OTM2NTE1": {
+  "id": 988936515,
+  "code": "OTg4OTM2NTE1",
+  "name": "Семья Рай",
+  "x": 2,
+  "y": 12
+ },
+ "OTg5MjExMDUx": {
+  "id": 989211051,
+  "code": "OTg5MjExMDUx",
+  "name": "Дряхлые небеса",
+  "x": 3,
+  "y": 12
+ },
+ "OTg5NDg1NTg3": {
+  "id": 989485587,
+  "code": "OTg5NDg1NTg3",
+  "name": "Мель",
+  "x": 4,
+  "y": 12
+ },
+ "OTkwNTgzNzMx": {
+  "id": 990583731,
+  "code": "OTkwNTgzNzMx",
+  "name": "Осквернённые небеса",
+  "x": 8,
+  "y": 12
+ },
+ "OTkwODU4MjY3": {
+  "id": 990858267,
+  "code": "OTkwODU4MjY3",
+  "name": "Месть Ру-Кая",
+  "x": 9,
+  "y": 12
+ },
+ "OTkxNjgxODc1": {
+  "id": 991681875,
+  "code": "OTkxNjgxODc1",
+  "name": "Вечный грех",
+  "x": 12,
+  "y": 12
+ },
+ "OTkyMjMwOTQ3": {
+  "id": 992230947,
+  "code": "OTkyMjMwOTQ3",
+  "name": "Хаакский сектор 841",
+  "x": 14,
+  "y": 12
+ },
+ "OTkzMzI5MDkx": {
+  "id": 993329091,
+  "code": "OTkzMzI5MDkx",
+  "name": "Яркая прибыль",
+  "x": 18,
+  "y": 12
+ },
+ "MTA3MDc0ODI0Mw": {
+  "id": 1070748243,
+  "code": "MTA3MDc0ODI0Mw",
+  "name": "Глубина молчания",
+  "x": 0,
+  "y": 13
+ },
+ "MTA3MTAyMjc3OQ": {
+  "id": 1071022779,
+  "code": "MTA3MTAyMjc3OQ",
+  "name": "Темные воды",
+  "x": 1,
+  "y": 13
+ },
+ "MTA3MTI5NzMxNQ": {
+  "id": 1071297315,
+  "code": "MTA3MTI5NzMxNQ",
+  "name": "Запас спокойствия",
+  "x": 2,
+  "y": 13
+ },
+ "MTA3MTU3MTg1MQ": {
+  "id": 1071571851,
+  "code": "MTA3MTU3MTg1MQ",
+  "name": "Пустынные берега",
+  "x": 3,
+  "y": 13
+ },
+ "MTA3Mjk0NDUzMQ": {
+  "id": 1072944531,
+  "code": "MTA3Mjk0NDUzMQ",
+  "name": "Убежище жреца",
+  "x": 8,
+  "y": 13
+ },
+ "MTA3MzIxOTA2Nw": {
+  "id": 1073219067,
+  "code": "MTA3MzIxOTA2Nw",
+  "name": "Владение Кардинала",
+  "x": 9,
+  "y": 13
+ },
+ "MTA3MzQ5MzYwMw": {
+  "id": 1073493603,
+  "code": "MTA3MzQ5MzYwMw",
+  "name": "Священная реликвия",
+  "x": 10,
+  "y": 13
+ },
+ "MTA3NDg2NjI4Mw": {
+  "id": 1074866283,
+  "code": "MTA3NDg2NjI4Mw",
+  "name": "Хаакский сектор 926",
+  "x": 15,
+  "y": 13
+ },
+ "MTA3NTQxNTM1NQ": {
+  "id": 1075415355,
+  "code": "MTA3NTQxNTM1NQ",
+  "name": "Святилище коррупции",
+  "x": 17,
+  "y": 13
+ },
+ "MTA3NTY4OTg5MQ": {
+  "id": 1075689891,
+  "code": "MTA3NTY4OTg5MQ",
+  "name": "Сила компании",
+  "x": 18,
+  "y": 13
+ },
+ "MTE1MzM4MzU3OQ": {
+  "id": 1153383579,
+  "code": "MTE1MzM4MzU3OQ",
+  "name": "Сияющие течения",
+  "x": 1,
+  "y": 14
+ },
+ "MTE1MzY1ODExNQ": {
+  "id": 1153658115,
+  "code": "MTE1MzY1ODExNQ",
+  "name": "Великий риф",
+  "x": 2,
+  "y": 14
+ },
+ "MTE1NTMwNTMzMQ": {
+  "id": 1155305331,
+  "code": "MTE1NTMwNTMzMQ",
+  "name": "Источник веры",
+  "x": 8,
+  "y": 14
+ },
+ "MTE1NTU3OTg2Nw": {
+  "id": 1155579867,
+  "code": "MTE1NTU3OTg2Nw",
+  "name": "Пристанище монаха",
+  "x": 9,
+  "y": 14
+ },
+ "MTE1NTg1NDQwMw": {
+  "id": 1155854403,
+  "code": "MTE1NTg1NDQwMw",
+  "name": "Уединение Понтифика",
+  "x": 10,
+  "y": 14
+ },
+ "MTE1NjEyODkzOQ": {
+  "id": 1156128939,
+  "code": "MTE1NjEyODkzOQ",
+  "name": "Цитадель герцога",
+  "x": 11,
+  "y": 14
+ },
+ "MTE1Nzc3NjE1NQ": {
+  "id": 1157776155,
+  "code": "MTE1Nzc3NjE1NQ",
+  "name": "Возмездие Королевы",
+  "x": 17,
+  "y": 14
+ },
+ "MTE1ODA1MDY5MQ": {
+  "id": 1158050691,
+  "code": "MTE1ODA1MDY5MQ",
+  "name": "Пустая бесконечность",
+  "x": 18,
+  "y": 14
+ },
+ "MTIzNjAxODkxNQ": {
+  "id": 1236018915,
+  "code": "MTIzNjAxODkxNQ",
+  "name": "Туманы Элизиума",
+  "x": 2,
+  "y": 15
+ },
+ "MTIzNjI5MzQ1MQ": {
+  "id": 1236293451,
+  "code": "MTIzNjI5MzQ1MQ",
+  "name": "Неизвестный сектор",
+  "x": 3,
+  "y": 15
+ },
+ "MTIzNzM5MTU5NQ": {
+  "id": 1237391595,
+  "code": "MTIzNzM5MTU5NQ",
+  "name": "Неизвестный сектор",
+  "x": 7,
+  "y": 15
+ },
+ "MTIzNzY2NjEzMQ": {
+  "id": 1237666131,
+  "code": "MTIzNzY2NjEzMQ",
+  "name": "Низвержение безбожника",
+  "x": 8,
+  "y": 15
+ },
+ "MTIzNzk0MDY2Nw": {
+  "id": 1237940667,
+  "code": "MTIzNzk0MDY2Nw",
+  "name": "Священный огонь",
+  "x": 9,
+  "y": 15
+ },
+ "MTIzODIxNTIwMw": {
+  "id": 1238215203,
+  "code": "MTIzODIxNTIwMw",
+  "name": "Небесная защита",
+  "x": 10,
+  "y": 15
+ },
+ "MTIzOTMxMzM0Nw": {
+  "id": 1239313347,
+  "code": "MTIzOTMxMzM0Nw",
+  "name": "Заговор Патриарха",
+  "x": 14,
+  "y": 15
+ },
+ "MTIzOTU4Nzg4Mw": {
+  "id": 1239587883,
+  "code": "MTIzOTU4Nzg4Mw",
+  "name": "Искаженное владение",
+  "x": 15,
+  "y": 15
+ },
+ "MTIzOTg2MjQxOQ": {
+  "id": 1239862419,
+  "code": "MTIzOTg2MjQxOQ",
+  "name": "Угасшие мечты",
+  "x": 16,
+  "y": 15
+ },
+ "MTI0MDEzNjk1NQ": {
+  "id": 1240136955,
+  "code": "MTI0MDEzNjk1NQ",
+  "name": "Гавань королевы",
+  "x": 17,
+  "y": 15
+ },
+ "MTI0MDQxMTQ5MQ": {
+  "id": 1240411491,
+  "code": "MTI0MDQxMTQ5MQ",
+  "name": "Оазис Менелайи",
+  "x": 18,
+  "y": 15
+ },
+ "MTMxODM3OTcxNQ": {
+  "id": 1318379715,
+  "code": "MTMxODM3OTcxNQ",
+  "name": "Преддверие творения",
+  "x": 2,
+  "y": 16
+ },
+ "MTMxOTc1MjM5NQ": {
+  "id": 1319752395,
+  "code": "MTMxOTc1MjM5NQ",
+  "name": "Неизвестный сектор",
+  "x": 7,
+  "y": 16
+ },
+ "MTMyMDU3NjAwMw": {
+  "id": 1320576003,
+  "code": "MTMyMDU3NjAwMw",
+  "name": "Неизвестный сектор",
+  "x": 10,
+  "y": 16
+ },
+ "MTMyMTk0ODY4Mw": {
+  "id": 1321948683,
+  "code": "MTMyMTk0ODY4Mw",
+  "name": "Раскопки Тина",
+  "x": 15,
+  "y": 16
+ },
+ "MTMyMjIyMzIxOQ": {
+  "id": 1322223219,
+  "code": "MTMyMjIyMzIxOQ",
+  "name": "Покров обмана",
+  "x": 16,
+  "y": 16
+ },
+ "MTMyMjc3MjI5MQ": {
+  "id": 1322772291,
+  "code": "MTMyMjc3MjI5MQ",
+  "name": "Неизвестный сектор",
+  "x": 18,
+  "y": 16
+ },
+ "MTU3MTIyNzM3MQ": {
+  "id": 1571227371,
+  "code": "MTU3MTIyNzM3MQ",
+  "name": "Неизвестный сектор",
+  "x": 23,
+  "y": 19
+ }
+}

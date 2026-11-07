@@ -1,0 +1,8 @@
+# intermediate scrape output
+sectors/
+*.tmp
+
+# OS / editor
+Thumbs.db
+.DS_Store
+*.swp
