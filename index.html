@@ -3,6 +3,7 @@
 <title>X3:TC — карта вселенной (offline)</title>
 <style>
 body{background:#0C101D;color:#dfe6f0;font-family:Tahoma,Arial,sans-serif;font-size:13px;margin:0;padding:10px}
+html,body{overflow-x:clip}
 h1{font-size:16px;margin:0 0 6px}
 .sub{color:#8fa3c0;font-size:11px;margin-bottom:10px}
 .wrap{max-width:100%}
@@ -175,7 +176,7 @@ function buildRoutes(){
       const b=grid.querySelector('td[data-id="'+rt.sectors[rt.sectors.length-1]+'"]');
       if(!a||!b) return;
       const line=new LeaderLine(a,b,{
-        path:'arc', color:rt.color, size:3,
+        path:'fluid', color:rt.color, size:3,
         endPlug:'arrow1', endPlugSize:1.6,
         outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3,
         middleLabel: LeaderLine.pathLabel(rt.name, labelOpts)
@@ -190,7 +191,7 @@ function buildRoutes(){
       const a=grid.querySelector('td[data-id="'+rt.sectors[k]+'"]');
       const b=grid.querySelector('td[data-id="'+rt.sectors[k+1]+'"]');
       if(!a||!b) continue;
-      const opts={path:'arc', color:rt.color, size:3,
+      const opts={path:'fluid', color:rt.color, size:3,
                   startPlug:'behind', endPlug:'behind',
                   outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3};
       if(k===nSeg-1){ opts.endPlug='arrow1'; opts.endPlugSize=1.6; }
