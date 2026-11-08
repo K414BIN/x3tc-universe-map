@@ -67,6 +67,13 @@ if os.path.exists(_xf):
     xenon = json.load(open(_xf, encoding="utf-8"))
 xenon_js = json.dumps(xenon, ensure_ascii=False)
 
+# ---------- independent sectors (вообще без расы) ----------
+SECTOR_COLORS = {
+    576583443: "#5c6bc0",  # Шпора дикаря
+    577681587: "#5c6bc0",  # Свободный удел
+}
+sector_colors_js = json.dumps({str(k): v for k, v in SECTOR_COLORS.items()}, ensure_ascii=False)
+
 # ---------- leader-line (nice curved route lines, inlined for offline use) ----------
 _ll = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leader-line.min.js")
 ll_js = open(_ll, encoding="utf-8").read() if os.path.exists(_ll) else ""
@@ -122,8 +129,11 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 #xenonList input{vertical-align:middle}
 @keyframes raidGlow{0%,100%{filter:drop-shadow(0 0 2px rgba(255,255,255,.45))}50%{filter:drop-shadow(0 0 9px rgba(255,255,255,.95))}}
 .raidIcon{position:absolute;z-index:6;pointer-events:none;animation:raidGlow 1.6s ease-in-out infinite}
-.raidIconList{width:15px;height:15px;vertical-align:-3px;margin:0 4px 0 2px;animation:raidGlow 1.6s ease-in-out infinite}
+.raidIconList{width:15px;height:15px;vertical-align:-3px;margin:0 4px 0 2px;animation:raidGlowWhite 1.6s ease-in-out infinite}
+@keyframes raidGlowWhite{0%,100%{filter:invert(1) hue-rotate(180deg) drop-shadow(0 0 2px rgba(255,255,255,.45))}50%{filter:invert(1) hue-rotate(180deg) drop-shadow(0 0 9px rgba(255,255,255,.95))}}
+.topbar{background:#1E1E24;margin:0 -10px 10px;padding:6px 10px 10px}
 </style></head><body>
+<div class="topbar">
 <h1>X3:TC — карта вселенной (offline копия)</h1>
 <div class="sub">Источник: <a style="color:#7BA0D9" href="https://x3tc.net/x3_tc_map/">x3tc.net/x3_tc_map</a>
 · секторов: __NSEC__ · станций: __NST__ · астероидов: __NAST__ · врата: __NGATE__</div>
@@ -134,6 +144,7 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 </div>
 <div id="routeList"></div>
 <div id="xenonList"></div>
+</div>
 <div class="wrap">
 <div id="scroller"><div id="flip"><table id="grid"></table></div></div>
 </div>
@@ -146,6 +157,8 @@ const ROUTES = __ROUTES__;
 const XENON = __XENON__;
 const ICON_BOT = "__ICON_BOT__";
 const ICON_SKULL = "__ICON_SKULL__";
+const SECTOR_COLORS = __SECTOR_COLORS__;
+const INDEP_COLOR = "#5c6bc0";
 const XEN_SET = new Set(XENON.xenon_sectors.map(s=>String(s.id)));
 let raidsOn=true;
 const W=24, H=20;
@@ -169,7 +182,7 @@ function draw(filter){
       if(!found){ html+='<td class="empty"></td>'; continue; }
       const r=U[found];
       if(filter && r.name.toLowerCase().indexOf(filter)<0){ html+='<td class="empty"></td>'; continue; }
-      const c=COL[r.race]||'#333';
+      const c=SECTOR_COLORS[found]||COL[r.race]||'#333';
       let inf=[];
       if(r.n_stations) inf.push('ст:'+r.n_stations);
       if(r.n_asteroids) inf.push('аст:'+r.n_asteroids);
@@ -242,6 +255,7 @@ window.addEventListener('resize',function(){ if(window._curId!=null) place(windo
 // legend
 let lg='';
 for(const race in COL){ if(!race) continue; lg+='<span><span class="sw" style="background:'+COL[race]+'"></span>'+esc(race)+'</span>'; }
+lg+='<span><span class="sw" style="background:'+INDEP_COLOR+'"></span>Независимые</span>';
 document.getElementById('legend').innerHTML=lg;
 const inp=document.getElementById('search'), cnt=document.getElementById('count');
 inp.oninput=()=>{
@@ -393,10 +407,12 @@ function buildIcons(){
     const img=document.createElement('img');
     img.src=isXen?ICON_BOT:ICON_SKULL;
     img.className='raidIcon';
-    img.width=30; img.height=30;
+    const icType=isXen?'bot':'skull';
+    img.width=(icType==='bot')?30:22;
+    img.height=(icType==='bot')?30:22;
     img.alt='';
     document.body.appendChild(img);
-    iconMarkers.push({el:img, id:id});
+    iconMarkers.push({el:img, id:id, icon:icType});
   }
   placeIcons();
 }
@@ -406,9 +422,15 @@ function placeIcons(){
     if(!td){ m.el.style.display='none'; continue; }
     m.el.style.display='';
     const r=td.getBoundingClientRect();
-    const cx=r.left+r.width/2+window.scrollX, cy=r.top+r.height/2+window.scrollY;
-    m.el.style.left=(cx-15)+'px';
-    m.el.style.top=(cy-15)+'px';
+    if(m.icon==='skull'){
+      // ниже и правее в клетке
+      m.el.style.left=(r.right-26+window.scrollX)+'px';
+      m.el.style.top=(r.bottom-26+window.scrollY)+'px';
+    } else {
+      const cx=r.left+r.width/2+window.scrollX, cy=r.top+r.height/2+window.scrollY;
+      m.el.style.left=(cx-15)+'px';
+      m.el.style.top=(cy-15)+'px';
+    }
   }
 }
 let rhtml='';
@@ -458,6 +480,7 @@ html_doc = (html_doc
             .replace("__XENON__", xenon_js)
             .replace("__ICON_BOT__", icon_bot_b64)
             .replace("__ICON_SKULL__", icon_skull_b64)
+            .replace("__SECTOR_COLORS__", sector_colors_js)
             .replace("__LEADERLINE__", ll_js)
             .replace("__NSEC__", str(nsec))
             .replace("__NST__", str(nst))
