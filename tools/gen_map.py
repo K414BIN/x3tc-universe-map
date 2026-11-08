@@ -224,8 +224,10 @@ function drawRoutes(){
   routesSvg.setAttribute('width',grid.offsetWidth);
   routesSvg.setAttribute('height',grid.offsetHeight);
   let defs='', body='';
+  const nRoutes=ROUTES.length;
   ROUTES.forEach((rt,i)=>{
     if(!rt.on) return;
+    const off=(rt.offset!=null?rt.offset:(i-(nRoutes-1)/2)*12);
     defs+='<marker id="ah'+i+'" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3.2 L0,6.4 z" fill="'+rt.color+'"/></marker>';
     let prev=null;
     for(const id of rt.sectors){
@@ -233,8 +235,11 @@ function drawRoutes(){
       const cx=tr.left-sr.left+(r.x+0.5)*cw, cy=tr.top-sr.top+(r.y+0.5)*ch;
       if(prev){
         const dx=cx-prev[0], dy=cy-prev[1], len=Math.hypot(dx,dy)||1;
-        const sx=prev[0]+dx/len*24, sy=prev[1]+dy/len*24;
-        const ex=cx-dx/len*30, ey=cy-dy/len*30;
+        const ux=dx/len, uy=dy/len;
+        const horiz=Math.abs(dx)>=Math.abs(dy);
+        const ox=horiz?0:off, oy=horiz?off:0;
+        const sx=prev[0]+ux*24+ox, sy=prev[1]+uy*24+oy;
+        const ex=cx-ux*30+ox, ey=cy-uy*30+oy;
         body+='<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="rgba(0,0,0,.55)" stroke-width="6" stroke-linecap="round"/>';
         body+='<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="'+rt.color+'" stroke-width="3" stroke-linecap="round" marker-end="url(#ah'+i+')"/>';
       }
