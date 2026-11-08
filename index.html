@@ -156,6 +156,9 @@ inp.oninput=()=>{
 };
 draw(null);
 // --- raid routes layer (military, leader-line) ---
+// 'chain'  — линия идёт через каждый сектор маршрута (начало только в первом, стрелка только в последнем)
+// 'direct' — одна дуга от первого сектора к последнему
+const ROUTE_MODE='chain';
 const routeLines=[];
 function clearRoutes(){
   for(const e of routeLines){ try{ e.line.remove(); }catch(err){} }
@@ -164,20 +167,41 @@ function clearRoutes(){
 function buildRoutes(){
   clearRoutes();
   if(document.getElementById('search').value.trim()) return;
+  const labelOpts={color:'#fff', fontSize:'11px', outlineColor:'rgba(0,0,0,0.9)', outlineSize:0.25};
   ROUTES.forEach((rt,ri)=>{
     if(!rt.on || rt.sectors.length<2) return;
-    const a=grid.querySelector('td[data-id="'+rt.sectors[0]+'"]');
-    const b=grid.querySelector('td[data-id="'+rt.sectors[rt.sectors.length-1]+'"]');
-    if(!a||!b) return;
-    const line=new LeaderLine(a,b,{
-      path:'arc', color:rt.color, size:3,
-      endPlug:'arrow1', endPlugSize:1.6,
-      outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3,
-      middleLabel: LeaderLine.pathLabel(rt.name, {
-        color:'#fff', fontSize:'11px', outlineColor:'rgba(0,0,0,0.9)', outlineSize:0.25
-      })
-    });
-    routeLines.push({line:line, ri:ri});
+    if(ROUTE_MODE==='direct'){
+      const a=grid.querySelector('td[data-id="'+rt.sectors[0]+'"]');
+      const b=grid.querySelector('td[data-id="'+rt.sectors[rt.sectors.length-1]+'"]');
+      if(!a||!b) return;
+      const line=new LeaderLine(a,b,{
+        path:'arc', color:rt.color, size:3,
+        endPlug:'arrow1', endPlugSize:1.6,
+        outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3,
+        middleLabel: LeaderLine.pathLabel(rt.name, labelOpts)
+      });
+      routeLines.push({line:line, ri:ri});
+      return;
+    }
+    // chain: one segment per hop, plugs hidden except the final arrowhead
+    const nSeg=rt.sectors.length-1;
+    const mid=Math.floor(nSeg/2);
+    for(let k=0;k<nSeg;k++){
+      const a=grid.querySelector('td[data-id="'+rt.sectors[k]+'"]');
+      const b=grid.querySelector('td[data-id="'+rt.sectors[k+1]+'"]');
+      if(!a||!b) continue;
+      const opts={path:'arc', color:rt.color, size:3,
+                  startPlug:'behind', endPlug:'behind',
+                  outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3};
+      if(k===nSeg-1){ opts.endPlug='arrow1'; opts.endPlugSize=1.6; }
+      if(k===mid){ opts.middleLabel=LeaderLine.pathLabel(rt.name, labelOpts); }
+      const line=new LeaderLine(
+        LeaderLine.pointAnchor(a,{x:'50%',y:'50%'}),
+        LeaderLine.pointAnchor(b,{x:'50%',y:'50%'}),
+        opts
+      );
+      routeLines.push({line:line, ri:ri});
+    }
   });
 }
 function refreshRoutes(){
