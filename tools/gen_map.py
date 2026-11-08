@@ -60,6 +60,13 @@ if os.path.exists(_rf):
     routes = json.load(open(_rf, encoding="utf-8")).get("routes", [])
 routes_js = json.dumps(routes, ensure_ascii=False)
 
+# ---------- xenon raids (military layer) ----------
+xenon = {"xenon_sectors": [], "raids": [], "frontier": []}
+_xf = os.path.join(D, "xenon_raids.json")
+if os.path.exists(_xf):
+    xenon = json.load(open(_xf, encoding="utf-8"))
+xenon_js = json.dumps(xenon, ensure_ascii=False)
+
 # ---------- leader-line (nice curved route lines, inlined for offline use) ----------
 _ll = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leader-line.min.js")
 ll_js = open(_ll, encoding="utf-8").read() if os.path.exists(_ll) else ""
@@ -68,7 +75,7 @@ html_doc = """<!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
 <title>X3:TC — карта вселенной (offline)</title>
 <style>
-body{background:#0C101D;color:#dfe6f0;font-family:Tahoma,Arial,sans-serif;font-size:13px;margin:0;padding:10px}
+body{background:#0C101D;color:#dfe6f0;font-family:Tahoma,Arial,sans-serif;font-size:13px;margin:0;padding:10px;position:relative}
 html,body{overflow-x:clip}
 h1{font-size:16px;margin:0 0 6px}
 .sub{color:#8fa3c0;font-size:11px;margin-bottom:10px}
@@ -100,6 +107,13 @@ h1{font-size:16px;margin:0 0 6px}
 details{margin-top:6px}
 summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 .hl{outline:2px solid #FFCC55}
+#grid td.xen{outline:2px solid #ff1744;outline-offset:-2px}
+#grid td.f1{box-shadow:inset 0 0 0 2px #ff2b2b}
+#grid td.f2{box-shadow:inset 0 0 0 2px rgba(255,43,43,.45)}
+#xenonList{margin:6px 0;font-size:11px;color:#dfe6f0}
+#xenonList label{display:inline-block;margin:0 12px 2px 0;cursor:pointer}
+#xenonList input{vertical-align:middle}
+#xenonList .xr{color:#ff8a80}
 </style></head><body>
 <h1>X3:TC — карта вселенной (offline копия)</h1>
 <div class="sub">Источник: <a style="color:#7BA0D9" href="https://x3tc.net/x3_tc_map/">x3tc.net/x3_tc_map</a>
@@ -110,6 +124,7 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
  <span id="count" style="color:#8fa3c0;font-size:11px;margin-left:8px"></span>
 </div>
 <div id="routeList"></div>
+<div id="xenonList"></div>
 <div class="wrap">
 <div id="scroller"><div id="flip"><table id="grid"></table></div></div>
 </div>
@@ -119,6 +134,10 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 const U = __DATA__;
 const COL = __COLORS__;
 const ROUTES = __ROUTES__;
+const XENON = __XENON__;
+const XEN_SET = new Set(XENON.xenon_sectors.map(s=>String(s.id)));
+const FRONT_MAP = {}; XENON.frontier.forEach(f=>{ FRONT_MAP[String(f.id)]=f.dist; });
+let raidsOn=true, frontOn=true;
 const W=24, H=20;
 const grid=document.getElementById('grid');
 const det=document.getElementById('detail');
@@ -144,7 +163,11 @@ function draw(filter){
       let inf=[];
       if(r.n_stations) inf.push('ст:'+r.n_stations);
       if(r.n_asteroids) inf.push('аст:'+r.n_asteroids);
-      html+='<td style="background:'+c+'"'+(isLight(c)?' class="lt"':'')+' data-id="'+found+'">'
+      const cls=[]; if(isLight(c)) cls.push('lt');
+      const fid=String(found);
+      if(XEN_SET.has(fid)) cls.push('xen');
+      if(frontOn && FRONT_MAP[fid]) cls.push(FRONT_MAP[fid]===1?'f1':'f2');
+      html+='<td style="background:'+c+'"'+(cls.length?' class="'+cls.join(' ')+'"':'')+' data-id="'+found+'">'
           + '<span class="nm">'+esc(r.name)+'</span>'
           + '<div class="inf">'+inf.join(' ')+'</div></td>';
     }
@@ -214,11 +237,12 @@ document.getElementById('legend').innerHTML=lg;
 const inp=document.getElementById('search'), cnt=document.getElementById('count');
 inp.oninput=()=>{
   const f=inp.value.trim().toLowerCase();
-  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); return; }
+  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); buildRaids(); return; }
   let n=0; for(const id in U){ if(U[id].name.toLowerCase().indexOf(f)>=0) n++; }
   cnt.textContent='найдено: '+n;
   draw(f);
   clearRoutes();
+  clearRaids();
 };
 draw(null);
 // --- raid routes layer (military, leader-line) ---
@@ -271,6 +295,32 @@ function buildRoutes(){
     }
   });
 }
+// --- xenon raids layer (military) ---
+const raidLines=[];
+function clearRaids(){
+  for(const e of raidLines){ try{ e.remove(); }catch(err){} }
+  raidLines.length=0;
+}
+function buildRaids(){
+  clearRaids();
+  if(!raidsOn) return;
+  if(document.getElementById('search').value.trim()) return;
+  XENON.raids.forEach(rd=>{
+    const a=grid.querySelector('td[data-id="'+rd.from+'"]');
+    const b=grid.querySelector('td[data-id="'+rd.to+'"]');
+    if(!a||!b) return;
+    const line=new LeaderLine(
+      LeaderLine.pointAnchor(a,{x:'50%',y:'50%'}),
+      LeaderLine.pointAnchor(b,{x:'50%',y:'50%'}),
+      {path:'fluid', color:'#ff2b2b', size:2.5,
+       endPlug:'arrow2', endPlugSize:2.2, endPlugOutline:true, endPlugOutlineColor:'rgba(0,0,0,0.8)',
+       outline:true, outlineColor:'rgba(0,0,0,0.75)', outlineSize:0.35,
+       dash:{length:6, gap:4, animation:{duration:900, easing:'linear'}}}
+    );
+    raidLines.push(line);
+  });
+}
+function refreshRaids(){ for(const e of raidLines){ try{ e.position(); }catch(err){} } }
 function refreshRoutes(){
   for(const e of routeLines){ try{ e.line.position(); }catch(err){} }
 }
@@ -284,8 +334,25 @@ document.querySelectorAll('#routeList input').forEach(cb=>{
   };
 });
 buildRoutes();
-document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); });
-window.addEventListener('resize',function(){ refreshRoutes(); });
+// xenon raids UI
+let xh='<div style="margin:4px 0 2px;color:#ff8a80;font-weight:bold">Ксенон: секторов '+XENON.xenon_sectors.length+' · рейдов '+XENON.raids.length+' · фронт (1-2 прыжка) '+XENON.frontier.length+'</div>';
+xh+='<label><input type="checkbox" id="raidsOnCb" checked> рейды (стрелки)</label>';
+xh+='<label><input type="checkbox" id="frontOnCb" checked> фронт вторжения</label>';
+xh+='<details><summary style="margin-left:12px;cursor:pointer;color:#9fb4d4;font-size:11px">Список рейдов</summary><div style="margin:4px 0 0 20px">';
+XENON.raids.forEach(rd=>{
+  xh+='<div><span style="color:#ff2b2b">&#10140;</span> '+esc(rd.from_name)+' &rarr; '+esc(rd.to_name)+' <span style="color:#8fa3c0">['+esc(rd.to_race||'?')+']</span></div>';
+});
+xh+='</div></details>';
+document.getElementById('xenonList').innerHTML=xh;
+document.getElementById('raidsOnCb').onchange=function(){ raidsOn=this.checked; buildRaids(); };
+document.getElementById('frontOnCb').onchange=function(){
+  frontOn=this.checked;
+  const f=document.getElementById('search').value.trim().toLowerCase();
+  draw(f); buildRoutes(); buildRaids();
+};
+buildRaids();
+document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); refreshRaids(); });
+window.addEventListener('resize',function(){ refreshRoutes(); refreshRaids(); });
 </script></body></html>
 """
 
@@ -298,6 +365,7 @@ html_doc = (html_doc
             .replace("__DATA__", data_js)
             .replace("__COLORS__", colors_js)
             .replace("__ROUTES__", routes_js)
+            .replace("__XENON__", xenon_js)
             .replace("__LEADERLINE__", ll_js)
             .replace("__NSEC__", str(nsec))
             .replace("__NST__", str(nst))
