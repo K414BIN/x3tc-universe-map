@@ -251,24 +251,38 @@ function clearRoutes(){
   for(const L of routeLabels){ try{ L.el.remove(); }catch(err){} }
   routeLabels.length=0;
 }
-function makeRouteLabel(text, aId, bId){
+function makeRouteLabel(text, anchor){
   const div=document.createElement('div');
   div.textContent=text;
   div.style.cssText='position:absolute;z-index:5;pointer-events:none;color:#fff;font-size:11px;font-family:Tahoma,Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.9);white-space:nowrap;';
   document.body.appendChild(div);
-  routeLabels.push({el:div, a:aId, b:bId});
+  routeLabels.push({el:div, anchor:anchor});
 }
 function placeRouteLabels(){
   for(const L of routeLabels){
-    const a=grid.querySelector('td[data-id="'+L.a+'"]');
-    const b=grid.querySelector('td[data-id="'+L.b+'"]');
-    if(!a||!b){ L.el.style.display='none'; continue; }
+    const an=L.anchor;
+    let ax, ay, bx, by;
+    if(an.type==='sector'){
+      const c=grid.querySelector('td[data-id="'+an.id+'"]');
+      if(!c){ L.el.style.display='none'; continue; }
+      const rc=c.getBoundingClientRect();
+      ax=bx=rc.left+rc.width/2; ay=by=rc.top+rc.height/2;
+    } else {
+      const a=grid.querySelector('td[data-id="'+an.a+'"]');
+      const b=grid.querySelector('td[data-id="'+an.b+'"]');
+      if(!a||!b){ L.el.style.display='none'; continue; }
+      const ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
+      ax=ra.left+ra.width/2; ay=ra.top+ra.height/2;
+      bx=rb.left+rb.width/2; by=rb.top+rb.height/2;
+    }
     L.el.style.display='';
-    const ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
-    const ax=ra.left+ra.width/2, ay=ra.top+ra.height/2;
-    const bx=rb.left+rb.width/2, by=rb.top+rb.height/2;
     const mx=(ax+bx)/2+window.scrollX, my=(ay+by)/2+window.scrollY;
-    if(Math.abs(by-ay) > Math.abs(bx-ax)){
+    if(an.type==='sector'){
+      // подпись на клетке сектора
+      L.el.style.transform='translate(-50%,-50%)';
+      L.el.style.left=mx+'px';
+      L.el.style.top=my+'px';
+    } else if(Math.abs(by-ay) > Math.abs(bx-ax)){
       // вертикальный сегмент: подпись сбоку, чтобы не пересекать линию
       L.el.style.transform='translate(0,-50%)';
       L.el.style.left=(mx+12)+'px';
@@ -286,6 +300,9 @@ function buildRoutes(){
   if(document.getElementById('search').value.trim()) return;
   ROUTES.forEach((rt,ri)=>{
     if(!rt.on || rt.sectors.length<2) return;
+    let anchor=null;
+    if(rt.label_sector!=null){ anchor={type:'sector', id:rt.label_sector}; }
+    else if(rt.label_between && rt.label_between.length===2){ anchor={type:'between', a:rt.label_between[0], b:rt.label_between[1]}; }
     if(ROUTE_MODE==='direct'){
       const a=grid.querySelector('td[data-id="'+rt.sectors[0]+'"]');
       const b=grid.querySelector('td[data-id="'+rt.sectors[rt.sectors.length-1]+'"]');
@@ -297,7 +314,7 @@ function buildRoutes(){
         outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3
       });
       routeLines.push({line:line, ri:ri});
-      makeRouteLabel('рейд '+(ri+1), rt.sectors[0], rt.sectors[rt.sectors.length-1]);
+      makeRouteLabel('рейд '+(ri+1), anchor || {type:'between', a:rt.sectors[0], b:rt.sectors[rt.sectors.length-1]});
       return;
     }
     // chain: one segment per hop, square plugs on both ends
@@ -317,7 +334,7 @@ function buildRoutes(){
         opts
       );
       routeLines.push({line:line, ri:ri});
-      if(k===mid){ makeRouteLabel('рейд '+(ri+1), rt.sectors[k], rt.sectors[k+1]); }
+      if(k===mid){ makeRouteLabel('рейд '+(ri+1), anchor || {type:'between', a:rt.sectors[k], b:rt.sectors[k+1]}); }
     }
   });
   placeRouteLabels();
@@ -347,7 +364,10 @@ document.getElementById('xenonList').innerHTML=xh;
 document.getElementById('raidsOnCb').onchange=function(){
   raidsOn=this.checked;
   document.getElementById('raidList').style.display=raidsOn?'block':'none';
+  refreshRoutes();
 };
+// #xenonList добавляет высоту над сеткой — пересчитать оверлей после его заполнения
+refreshRoutes();
 document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); });
 window.addEventListener('resize',function(){ refreshRoutes(); });
 </script></body></html>
