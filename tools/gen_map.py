@@ -1,9 +1,12 @@
-import json, csv, os, html
+import json, csv, os, html, copy
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = os.path.join(ROOT, "data")
 u = json.load(open(os.path.join(D, "universe.json"), encoding="utf-8"))
 u = {int(k): v for k, v in u.items()}
+
+# Пиратские базы, которых нет в спарсенных данных (есть в игре)
+EXTRA_PIRATE_BASES = [576583443]  # Шпора дикаря
 
 # ---------- CSV exports ----------
 with open(os.path.join(D, "sectors.csv"), "w", encoding="utf-8-sig", newline="") as f:
@@ -50,7 +53,12 @@ RACE_COLORS = {
     "Яки": "#4f4f4f", "Пират": "#333333", "": "#ffffff",
 }
 
-data_js = json.dumps({str(k): v for k, v in u.items()}, ensure_ascii=False)
+data_u = copy.deepcopy(u)
+for _sid in EXTRA_PIRATE_BASES:
+    if _sid in data_u and not any(s["name"] == "Пиратская база" for s in data_u[_sid]["stations"]):
+        data_u[_sid]["stations"].append({"name": "Пиратская база", "race": "Пират"})
+        data_u[_sid]["n_stations"] = len(data_u[_sid]["stations"])
+data_js = json.dumps({str(k): v for k, v in data_u.items()}, ensure_ascii=False)
 colors_js = json.dumps(RACE_COLORS, ensure_ascii=False)
 
 # ---------- raid routes (military layer) ----------
@@ -74,8 +82,6 @@ SECTOR_COLORS = {
     415156275: "#5c6bc0",  # Неизвестный сектор (12,5)
 }
 sector_colors_js = json.dumps({str(k): v for k, v in SECTOR_COLORS.items()}, ensure_ascii=False)
-# сектора, где пиратская база есть в игре, но не в спарсенных данных
-EXTRA_PIRATE_BASES = [576583443]  # Шпора дикаря
 extra_pirate_js = json.dumps([str(x) for x in EXTRA_PIRATE_BASES], ensure_ascii=False)
 
 # ---------- leader-line (nice curved route lines, inlined for offline use) ----------
