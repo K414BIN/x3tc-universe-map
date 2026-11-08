@@ -39,11 +39,15 @@ with open(os.path.join(D, "gates.csv"), "w", encoding="utf-8-sig", newline="") a
                 w.writerow([sid, r["name"], d, t, u.get(t, {}).get("name", "?")])
 
 # ---------- offline HTML map ----------
+# Цвета рас — по описанию внешности (Documents/Расы.txt):
+# люди (Земляне/Аргон/Гонер) — телесные оттенки; Сплит — желтовато-коричневый;
+# Паранид — бронзово-золотистый; Телади — зелёный/болотный; Борон — бирюзовый;
+# Ксенон — красный: их сектора крайне опасны; Хаак — кристаллический фиолетовый.
 RACE_COLORS = {
-    "Земляне": "#2f5d8a", "Аргон": "#2f7a3f", "Борон": "#2f7a7a",
-    "Сплит": "#a55a3f", "Паранид": "#7a4a9a", "Телади": "#8a8a2f",
-    "Пират": "#5a5a5a", "Ксенон": "#a03030", "Хаак": "#5a2a5a",
-    "Яки": "#6a4a8a", "Гонер": "#6a6a6a", "": "#333333",
+    "Земляне": "#ac8350", "Аргон": "#a06f42", "Гонер": "#7d7468",
+    "Сплит": "#94874f", "Паранид": "#a3762f", "Телади": "#4f7d3d",
+    "Борон": "#3a9a8f", "Ксенон": "#c62828", "Хаак": "#7a4a8c",
+    "Яки": "#4f4f4f", "Пират": "#333333", "": "#ffffff",
 }
 
 data_js = json.dumps({str(k): v for k, v in u.items()}, ensure_ascii=False)
@@ -56,18 +60,24 @@ html_doc = """<!DOCTYPE html>
 body{background:#0C101D;color:#dfe6f0;font-family:Tahoma,Arial,sans-serif;font-size:13px;margin:0;padding:10px}
 h1{font-size:16px;margin:0 0 6px}
 .sub{color:#8fa3c0;font-size:11px;margin-bottom:10px}
-.wrap{display:flex;gap:14px;align-items:flex-start}
-#grid{border-collapse:collapse;table-layout:fixed}
-#grid td{width:86px;height:60px;border:1px solid #1c2a44;vertical-align:top;padding:2px;overflow:hidden;cursor:pointer}
+.wrap{max-width:100%}
+#scroller{overflow-x:auto;max-width:100%;transform:scaleY(-1)}
+#flip{transform:scaleY(-1)}
+#grid{border-collapse:collapse;table-layout:fixed;width:1920px}
+#grid td{width:80px;height:80px;border:1px solid #1c2a44;vertical-align:top;padding:2px;overflow:hidden;cursor:pointer}
 #grid td.empty{background:#0C101D;cursor:default}
-#grid .nm{font-size:10px;line-height:1.15;display:block;color:#fff;text-decoration:none}
-#grid .inf{font-size:9px;color:#b8c6dd;margin-top:1px}
-#detail{width:430px;flex:0 0 430px;background:#151F2D;border:1px solid #2a3a55;padding:8px;min-height:200px}
+#grid .nm{font-size:10px;line-height:1.15;display:block;color:#fff;text-decoration:none;text-shadow:0 1px 2px rgba(0,0,0,.85)}
+#grid .inf{font-size:9px;color:#d5deea;margin-top:1px;text-shadow:0 1px 2px rgba(0,0,0,.85)}
+#grid td.lt .nm{color:#111;text-shadow:none}
+#grid td.lt .inf{color:#222;text-shadow:none}
+#detail{position:fixed;display:none;z-index:1000;width:430px;max-width:calc(100vw - 20px);background:#151F2D;border:1px solid #3a4f70;border-radius:8px;box-shadow:0 12px 36px rgba(0,0,0,.65),0 2px 8px rgba(0,0,0,.5);padding:8px;max-height:calc(100vh - 20px);overflow:auto}
+#detail .x{float:right;cursor:pointer;color:#8fa3c0;font-size:16px;line-height:1;padding:0 4px;border:1px solid #33476a;border-radius:4px}
+#detail .x:hover{color:#fff;background:#24344d}
 #detail h2{font-size:14px;margin:0 0 4px;color:#fff}
 #detail table{border-collapse:collapse;width:100%;font-size:11px;margin-top:6px}
 #detail td,#detail th{border:1px solid #2a3a55;padding:2px 4px;text-align:left;vertical-align:top}
 #detail th{background:#1d2a40;color:#9fb4d4}
-.tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;color:#fff}
+.tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.85)}
 .gate{display:inline-block;margin:1px 3px 1px 0;padding:1px 5px;background:#1d2a40;border:1px solid #33476a;font-size:10px}
 .gate a{color:#7BA0D9;text-decoration:none}
 .legend span{display:inline-block;margin-right:10px;font-size:11px}
@@ -86,9 +96,9 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
  <span id="count" style="color:#8fa3c0;font-size:11px;margin-left:8px"></span>
 </div>
 <div class="wrap">
-<div><table id="grid"></table></div>
-<div id="detail"><h2>Сектор не выбран</h2><div style="color:#8fa3c0;font-size:11px">Кликните по ячейке на карте или найдите сектор в поиске.</div></div>
+<div id="scroller"><div id="flip"><table id="grid"></table></div></div>
 </div>
+<div id="detail"></div>
 <script>
 const U = __DATA__;
 const COL = __COLORS__;
@@ -98,6 +108,11 @@ const det=document.getElementById('detail');
 const nameById={};
 for(const id in U){ nameById[id]=U[id].name; }
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function isLight(hex){
+  const m=/^#?([0-9a-f]{6})$/i.exec(hex||''); if(!m) return false;
+  const v=parseInt(m[1],16); const r=(v>>16)&255, g=(v>>8)&255, b=v&255;
+  return (0.2126*r+0.7152*g+0.0722*b)/255 > 0.6;
+}
 function draw(filter){
   let html='';
   for(let y=0;y<H;y++){
@@ -112,7 +127,7 @@ function draw(filter){
       let inf=[];
       if(r.n_stations) inf.push('ст:'+r.n_stations);
       if(r.n_asteroids) inf.push('аст:'+r.n_asteroids);
-      html+='<td style="background:'+c+'" data-id="'+found+'">'
+      html+='<td style="background:'+c+'"'+(isLight(c)?' class="lt"':'')+' data-id="'+found+'">'
           + '<span class="nm">'+esc(r.name)+'</span>'
           + '<div class="inf">'+inf.join(' ')+'</div></td>';
     }
@@ -128,6 +143,8 @@ function show(id){
   grid.querySelectorAll('td.hl').forEach(t=>t.classList.remove('hl'));
   const td=grid.querySelector('td[data-id="'+id+'"]'); if(td) td.classList.add('hl');
   const c=COL[r.race]||'#333';
+  const tc=isLight(c)?'#111':'#fff';
+  const tsh=isLight(c)?'none':'0 1px 2px rgba(0,0,0,.85)';
   let gates='';
   for(const d of ['N','S','E','W']){
     const t=r.gates[d];
@@ -140,10 +157,39 @@ function show(id){
   let as='<details><summary>Астероиды ('+r.asteroids.length+')</summary><table><tr><th>Ресурс</th><th>Содерж.</th><th>X</th><th>Y</th><th>Z</th></tr>';
   for(const a of r.asteroids){ as+='<tr><td>'+esc(a.res)+'</td><td>'+a.content+'</td><td>'+a.x+'</td><td>'+a.y+'</td><td>'+a.z+'</td></tr>'; }
   as+='</table></details>';
-  det.innerHTML='<h2><span class="tag" style="background:'+c+'">'+esc(r.race||'?')+'</span> '+esc(r.name)+'</h2>'
+  det.innerHTML='<span class="x" onclick="closeDet()" title="Закрыть">&times;</span>'
+    + '<h2><span class="tag" style="background:'+c+';color:'+tc+';text-shadow:'+tsh+'">'+esc(r.race||'?')+'</span> '+esc(r.name)+'</h2>'
     + '<div style="color:#8fa3c0;font-size:11px">ID '+id+' · координаты ('+r.x+', '+r.y+') · статус: '+esc(r.status||'?')+' · планет: '+r.planets+'</div>'
     + '<div style="margin-top:6px">'+gates+'</div>'+st+as;
+  det.style.display='block';
+  window._curId=id;
+  place(id);
 }
+// Позиционирование всплывающего окна с учетом границ экрана
+function place(id){
+  const td=grid.querySelector('td[data-id="'+id+'"]');
+  if(!td) return;
+  const r=td.getBoundingClientRect();
+  const pw=det.offsetWidth, ph=det.offsetHeight;
+  const m=10;
+  let left=r.right+m;
+  if(left+pw>window.innerWidth-m) left=r.left-pw-m;
+  left=Math.max(m, Math.min(window.innerWidth-pw-m, left));
+  let top=r.top;
+  if(top+ph>window.innerHeight-m) top=window.innerHeight-ph-m;
+  top=Math.max(m, Math.min(window.innerHeight-ph-m, top));
+  det.style.left=left+'px';
+  det.style.top=top+'px';
+}
+function closeDet(){ det.style.display='none'; window._curId=null; }
+document.addEventListener('click',function(e){
+  if(window._curId==null) return;
+  if(det.contains(e.target)) return;
+  if(e.target.closest && e.target.closest('td[data-id]')) return;
+  closeDet();
+});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeDet(); });
+window.addEventListener('resize',function(){ if(window._curId!=null) place(window._curId); });
 // legend
 let lg='';
 for(const race in COL){ if(!race) continue; lg+='<span><span class="sw" style="background:'+COL[race]+'"></span>'+esc(race)+'</span>'; }
