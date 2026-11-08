@@ -71,8 +71,12 @@ xenon_js = json.dumps(xenon, ensure_ascii=False)
 SECTOR_COLORS = {
     576583443: "#5c6bc0",  # Шпора дикаря
     577681587: "#5c6bc0",  # Свободный удел
+    415156275: "#5c6bc0",  # Неизвестный сектор (12,5)
 }
 sector_colors_js = json.dumps({str(k): v for k, v in SECTOR_COLORS.items()}, ensure_ascii=False)
+# сектора, где пиратская база есть в игре, но не в спарсенных данных
+EXTRA_PIRATE_BASES = [576583443]  # Шпора дикаря
+extra_pirate_js = json.dumps([str(x) for x in EXTRA_PIRATE_BASES], ensure_ascii=False)
 
 # ---------- leader-line (nice curved route lines, inlined for offline use) ----------
 _ll = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leader-line.min.js")
@@ -159,6 +163,7 @@ const ICON_BOT = "__ICON_BOT__";
 const ICON_SKULL = "__ICON_SKULL__";
 const SECTOR_COLORS = __SECTOR_COLORS__;
 const INDEP_COLOR = "#5c6bc0";
+const EXTRA_PIRATE = __EXTRA_PIRATE__;
 const XEN_SET = new Set(XENON.xenon_sectors.map(s=>String(s.id)));
 let raidsOn=true;
 const W=24, H=20;
@@ -402,7 +407,7 @@ function buildIcons(){
   for(const id in U){
     const r=U[id];
     const isXen=(r.race==='Ксенон');
-    const isPir=(r.race!=='Пират') && r.stations.some(s=>s.name==='Пиратская база');
+    const isPir=((r.race!=='Пират') && r.stations.some(s=>s.name==='Пиратская база')) || EXTRA_PIRATE.indexOf(id)>=0;
     if(!isXen && !isPir) continue;
     const img=document.createElement('img');
     img.src=isXen?ICON_BOT:ICON_SKULL;
@@ -475,6 +480,7 @@ html_doc = (html_doc
             .replace("__ICON_BOT__", icon_bot_b64)
             .replace("__ICON_SKULL__", icon_skull_b64)
             .replace("__SECTOR_COLORS__", sector_colors_js)
+            .replace("__EXTRA_PIRATE__", extra_pirate_js)
             .replace("__LEADERLINE__", ll_js)
             .replace("__NSEC__", str(nsec))
             .replace("__NST__", str(nst))
