@@ -108,12 +108,9 @@ details{margin-top:6px}
 summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 .hl{outline:2px solid #FFCC55}
 #grid td.xen{outline:2px solid #ff1744;outline-offset:-2px}
-#grid td.f1{box-shadow:inset 0 0 0 2px #ff2b2b}
-#grid td.f2{box-shadow:inset 0 0 0 2px rgba(255,43,43,.45)}
 #xenonList{margin:6px 0;font-size:11px;color:#dfe6f0}
 #xenonList label{display:inline-block;margin:0 12px 2px 0;cursor:pointer}
 #xenonList input{vertical-align:middle}
-#xenonList .xr{color:#ff8a80}
 </style></head><body>
 <h1>X3:TC — карта вселенной (offline копия)</h1>
 <div class="sub">Источник: <a style="color:#7BA0D9" href="https://x3tc.net/x3_tc_map/">x3tc.net/x3_tc_map</a>
@@ -136,8 +133,7 @@ const COL = __COLORS__;
 const ROUTES = __ROUTES__;
 const XENON = __XENON__;
 const XEN_SET = new Set(XENON.xenon_sectors.map(s=>String(s.id)));
-const FRONT_MAP = {}; XENON.frontier.forEach(f=>{ FRONT_MAP[String(f.id)]=f.dist; });
-let raidsOn=true, frontOn=true;
+let raidsOn=true;
 const W=24, H=20;
 const grid=document.getElementById('grid');
 const det=document.getElementById('detail');
@@ -166,7 +162,6 @@ function draw(filter){
       const cls=[]; if(isLight(c)) cls.push('lt');
       const fid=String(found);
       if(XEN_SET.has(fid)) cls.push('xen');
-      if(frontOn && FRONT_MAP[fid]) cls.push(FRONT_MAP[fid]===1?'f1':'f2');
       html+='<td style="background:'+c+'"'+(cls.length?' class="'+cls.join(' ')+'"':'')+' data-id="'+found+'">'
           + '<span class="nm">'+esc(r.name)+'</span>'
           + '<div class="inf">'+inf.join(' ')+'</div></td>';
@@ -237,12 +232,11 @@ document.getElementById('legend').innerHTML=lg;
 const inp=document.getElementById('search'), cnt=document.getElementById('count');
 inp.oninput=()=>{
   const f=inp.value.trim().toLowerCase();
-  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); buildRaids(); return; }
+  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); return; }
   let n=0; for(const id in U){ if(U[id].name.toLowerCase().indexOf(f)>=0) n++; }
   cnt.textContent='найдено: '+n;
   draw(f);
   clearRoutes();
-  clearRaids();
 };
 draw(null);
 // --- raid routes layer (military, leader-line) ---
@@ -250,14 +244,36 @@ draw(null);
 // 'direct' — одна дуга от первого сектора к последнему
 const ROUTE_MODE='chain';
 const routeLines=[];
+const routeLabels=[];
 function clearRoutes(){
   for(const e of routeLines){ try{ e.line.remove(); }catch(err){} }
   routeLines.length=0;
+  for(const L of routeLabels){ try{ L.el.remove(); }catch(err){} }
+  routeLabels.length=0;
+}
+function makeRouteLabel(text, aId, bId){
+  const div=document.createElement('div');
+  div.textContent=text;
+  div.style.cssText='position:absolute;z-index:5;pointer-events:none;color:#fff;font-size:11px;font-family:Tahoma,Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.9);transform:translate(-50%,0);white-space:nowrap;';
+  document.body.appendChild(div);
+  routeLabels.push({el:div, a:aId, b:bId});
+}
+function placeRouteLabels(){
+  for(const L of routeLabels){
+    const a=grid.querySelector('td[data-id="'+L.a+'"]');
+    const b=grid.querySelector('td[data-id="'+L.b+'"]');
+    if(!a||!b){ L.el.style.display='none'; continue; }
+    L.el.style.display='';
+    const ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
+    const mx=(ra.left+ra.width/2+rb.left+rb.width/2)/2+window.scrollX;
+    const my=(ra.top+ra.height/2+rb.top+rb.height/2)/2+window.scrollY;
+    L.el.style.left=mx+'px';
+    L.el.style.top=(my+10)+'px';
+  }
 }
 function buildRoutes(){
   clearRoutes();
   if(document.getElementById('search').value.trim()) return;
-  const labelOpts={color:'#fff', fontSize:'11px', outlineColor:'rgba(0,0,0,0.9)', outlineSize:0.25};
   ROUTES.forEach((rt,ri)=>{
     if(!rt.on || rt.sectors.length<2) return;
     if(ROUTE_MODE==='direct'){
@@ -268,10 +284,10 @@ function buildRoutes(){
         path:'fluid', color:rt.color, size:3,
         startPlug:'square', endPlug:'square',
         startPlugOutline:true, endPlugOutline:true,
-        outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3,
-        middleLabel: LeaderLine.pathLabel(rt.name, labelOpts)
+        outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3
       });
       routeLines.push({line:line, ri:ri});
+      makeRouteLabel('рейд '+(ri+1), rt.sectors[0], rt.sectors[rt.sectors.length-1]);
       return;
     }
     // chain: one segment per hop, square plugs on both ends
@@ -285,44 +301,20 @@ function buildRoutes(){
                   startPlug:'square', endPlug:'square',
                   startPlugOutline:true, endPlugOutline:true,
                   outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3};
-      if(k===mid){ opts.middleLabel=LeaderLine.pathLabel(rt.name, labelOpts); }
       const line=new LeaderLine(
         LeaderLine.pointAnchor(a,{x:'50%',y:'50%'}),
         LeaderLine.pointAnchor(b,{x:'50%',y:'50%'}),
         opts
       );
       routeLines.push({line:line, ri:ri});
+      if(k===mid){ makeRouteLabel('рейд '+(ri+1), rt.sectors[k], rt.sectors[k+1]); }
     }
   });
+  placeRouteLabels();
 }
-// --- xenon raids layer (military) ---
-const raidLines=[];
-function clearRaids(){
-  for(const e of raidLines){ try{ e.remove(); }catch(err){} }
-  raidLines.length=0;
-}
-function buildRaids(){
-  clearRaids();
-  if(!raidsOn) return;
-  if(document.getElementById('search').value.trim()) return;
-  XENON.raids.forEach(rd=>{
-    const a=grid.querySelector('td[data-id="'+rd.from+'"]');
-    const b=grid.querySelector('td[data-id="'+rd.to+'"]');
-    if(!a||!b) return;
-    const line=new LeaderLine(
-      LeaderLine.pointAnchor(a,{x:'50%',y:'50%'}),
-      LeaderLine.pointAnchor(b,{x:'50%',y:'50%'}),
-      {path:'fluid', color:'#ff2b2b', size:2.5,
-       endPlug:'arrow2', endPlugSize:2.2, endPlugOutline:true, endPlugOutlineColor:'rgba(0,0,0,0.8)',
-       outline:true, outlineColor:'rgba(0,0,0,0.75)', outlineSize:0.35,
-       dash:{length:6, gap:4, animation:{duration:900, easing:'linear'}}}
-    );
-    raidLines.push(line);
-  });
-}
-function refreshRaids(){ for(const e of raidLines){ try{ e.position(); }catch(err){} } }
 function refreshRoutes(){
   for(const e of routeLines){ try{ e.line.position(); }catch(err){} }
+  placeRouteLabels();
 }
 let rhtml='';
 ROUTES.forEach((rt,i)=>{ rt.on=true; rhtml+='<label><input type="checkbox" data-i="'+i+'" checked> <span style="color:'+rt.color+'">&#9632;</span> '+esc(rt.name)+'</label>'; });
@@ -334,25 +326,20 @@ document.querySelectorAll('#routeList input').forEach(cb=>{
   };
 });
 buildRoutes();
-// xenon raids UI
-let xh='<div style="margin:4px 0 2px;color:#ff8a80;font-weight:bold">Ксенон: секторов '+XENON.xenon_sectors.length+' · рейдов '+XENON.raids.length+' · фронт (1-2 прыжка) '+XENON.frontier.length+'</div>';
-xh+='<label><input type="checkbox" id="raidsOnCb" checked> рейды (стрелки)</label>';
-xh+='<label><input type="checkbox" id="frontOnCb" checked> фронт вторжения</label>';
-xh+='<details><summary style="margin-left:12px;cursor:pointer;color:#9fb4d4;font-size:11px">Список рейдов</summary><div style="margin:4px 0 0 20px">';
+// xenon raids UI — один список всех рейдов под одной галочкой
+let xh='<label><input type="checkbox" id="raidsOnCb" checked> Рейды ксенонов ('+XENON.raids.length+')</label>';
+xh+='<div id="raidList" style="margin:4px 0 0 20px">';
 XENON.raids.forEach(rd=>{
-  xh+='<div><span style="color:#ff2b2b">&#10140;</span> '+esc(rd.from_name)+' &rarr; '+esc(rd.to_name)+' <span style="color:#8fa3c0">['+esc(rd.to_race||'?')+']</span></div>';
+  xh+='<div>'+esc(rd.from_name)+' &rarr; '+esc(rd.to_name)+' <span style="color:#8fa3c0">['+esc(rd.to_race||'?')+']</span></div>';
 });
-xh+='</div></details>';
+xh+='</div>';
 document.getElementById('xenonList').innerHTML=xh;
-document.getElementById('raidsOnCb').onchange=function(){ raidsOn=this.checked; buildRaids(); };
-document.getElementById('frontOnCb').onchange=function(){
-  frontOn=this.checked;
-  const f=document.getElementById('search').value.trim().toLowerCase();
-  draw(f); buildRoutes(); buildRaids();
+document.getElementById('raidsOnCb').onchange=function(){
+  raidsOn=this.checked;
+  document.getElementById('raidList').style.display=raidsOn?'block':'none';
 };
-buildRaids();
-document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); refreshRaids(); });
-window.addEventListener('resize',function(){ refreshRoutes(); refreshRaids(); });
+document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); });
+window.addEventListener('resize',function(){ refreshRoutes(); });
 </script></body></html>
 """
 
