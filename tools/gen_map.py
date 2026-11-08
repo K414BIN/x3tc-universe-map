@@ -71,6 +71,15 @@ xenon_js = json.dumps(xenon, ensure_ascii=False)
 _ll = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leader-line.min.js")
 ll_js = open(_ll, encoding="utf-8").read() if os.path.exists(_ll) else ""
 
+# ---------- faction icons (military layer, inlined as base64 for offline use) ----------
+import base64
+def _b64file(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode("ascii")
+_icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
+icon_bot_b64 = "data:image/png;base64," + _b64file(os.path.join(_icons_dir, "bot.png"))
+icon_skull_b64 = "data:image/png;base64," + _b64file(os.path.join(_icons_dir, "skull.png"))
+
 html_doc = """<!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
 <title>X3:TC — карта вселенной (offline)</title>
@@ -111,6 +120,9 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 #xenonList{margin:6px 0;font-size:11px;color:#dfe6f0}
 #xenonList label{display:inline-block;margin:0 12px 2px 0;cursor:pointer}
 #xenonList input{vertical-align:middle}
+@keyframes raidGlow{0%,100%{filter:drop-shadow(0 0 2px rgba(255,255,255,.45))}50%{filter:drop-shadow(0 0 9px rgba(255,255,255,.95))}}
+.raidIcon{position:absolute;z-index:6;pointer-events:none;animation:raidGlow 1.6s ease-in-out infinite}
+.raidIconList{width:15px;height:15px;vertical-align:-3px;margin:0 4px 0 2px;animation:raidGlow 1.6s ease-in-out infinite}
 </style></head><body>
 <h1>X3:TC — карта вселенной (offline копия)</h1>
 <div class="sub">Источник: <a style="color:#7BA0D9" href="https://x3tc.net/x3_tc_map/">x3tc.net/x3_tc_map</a>
@@ -132,6 +144,8 @@ const U = __DATA__;
 const COL = __COLORS__;
 const ROUTES = __ROUTES__;
 const XENON = __XENON__;
+const ICON_BOT = "__ICON_BOT__";
+const ICON_SKULL = "__ICON_SKULL__";
 const XEN_SET = new Set(XENON.xenon_sectors.map(s=>String(s.id)));
 let raidsOn=true;
 const W=24, H=20;
@@ -232,11 +246,12 @@ document.getElementById('legend').innerHTML=lg;
 const inp=document.getElementById('search'), cnt=document.getElementById('count');
 inp.oninput=()=>{
   const f=inp.value.trim().toLowerCase();
-  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); return; }
+  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); placeIcons(); return; }
   let n=0; for(const id in U){ if(U[id].name.toLowerCase().indexOf(f)>=0) n++; }
   cnt.textContent='найдено: '+n;
   draw(f);
   clearRoutes();
+  placeIcons();
 };
 draw(null);
 // --- raid routes layer (military, leader-line) ---
@@ -278,10 +293,16 @@ function placeRouteLabels(){
     L.el.style.display='';
     const mx=(ax+bx)/2+window.scrollX, my=(ay+by)/2+window.scrollY;
     if(an.type==='sector'){
-      // подпись на клетке сектора, ниже линии (как у обычных маршрутов)
-      L.el.style.transform='translate(-50%,0)';
-      L.el.style.left=mx+'px';
-      L.el.style.top=(my+10)+'px';
+      // подпись на клетке сектора: ниже линии (горизонт.) или сбоку (вертик.)
+      if(an.vertical){
+        L.el.style.transform='translate(0,-50%)';
+        L.el.style.left=(mx+8)+'px';
+        L.el.style.top=my+'px';
+      } else {
+        L.el.style.transform='translate(-50%,0)';
+        L.el.style.left=mx+'px';
+        L.el.style.top=(my+10)+'px';
+      }
     } else if(Math.abs(by-ay) > Math.abs(bx-ax)){
       // вертикальный сегмент: подпись сбоку, чтобы не пересекать линию
       L.el.style.transform='translate(0,-50%)';
@@ -301,7 +322,19 @@ function buildRoutes(){
   ROUTES.forEach((rt,ri)=>{
     if(!rt.on || rt.sectors.length<2) return;
     let anchor=null;
-    if(rt.label_sector!=null){ anchor={type:'sector', id:rt.label_sector}; }
+    if(rt.label_sector!=null){
+      const idx=rt.sectors.indexOf(rt.label_sector);
+      let vertical=false;
+      if(idx>0 && idx<rt.sectors.length-1){
+        const pa=grid.querySelector('td[data-id="'+rt.sectors[idx-1]+'"]');
+        const pb=grid.querySelector('td[data-id="'+rt.sectors[idx+1]+'"]');
+        if(pa&&pb){
+          const ra=pa.getBoundingClientRect(), rb=pb.getBoundingClientRect();
+          vertical=Math.abs((rb.top+rb.height/2)-(ra.top+ra.height/2))>Math.abs((rb.left+rb.width/2)-(ra.left+ra.width/2));
+        }
+      }
+      anchor={type:'sector', id:rt.label_sector, vertical:vertical};
+    }
     else if(rt.label_between && rt.label_between.length===2){ anchor={type:'between', a:rt.label_between[0], b:rt.label_between[1]}; }
     if(ROUTE_MODE==='direct'){
       const a=grid.querySelector('td[data-id="'+rt.sectors[0]+'"]');
@@ -342,9 +375,48 @@ function buildRoutes(){
 function refreshRoutes(){
   for(const e of routeLines){ try{ e.line.position(); }catch(err){} }
   placeRouteLabels();
+  placeIcons();
+}
+// --- faction icons (glow markers on sectors) ---
+const iconMarkers=[];
+function clearIcons(){
+  for(const m of iconMarkers){ try{ m.el.remove(); }catch(err){} }
+  iconMarkers.length=0;
+}
+function buildIcons(){
+  clearIcons();
+  for(const id in U){
+    const r=U[id];
+    const isXen=(r.race==='Ксенон');
+    const isPir=(r.race!=='Пират') && r.stations.some(s=>s.name==='Пиратская база');
+    if(!isXen && !isPir) continue;
+    const img=document.createElement('img');
+    img.src=isXen?ICON_BOT:ICON_SKULL;
+    img.className='raidIcon';
+    img.width=30; img.height=30;
+    img.alt='';
+    document.body.appendChild(img);
+    iconMarkers.push({el:img, id:id});
+  }
+  placeIcons();
+}
+function placeIcons(){
+  for(const m of iconMarkers){
+    const td=grid.querySelector('td[data-id="'+m.id+'"]');
+    if(!td){ m.el.style.display='none'; continue; }
+    m.el.style.display='';
+    const r=td.getBoundingClientRect();
+    const cx=r.left+r.width/2+window.scrollX, cy=r.top+r.height/2+window.scrollY;
+    m.el.style.left=(cx-15)+'px';
+    m.el.style.top=(cy-15)+'px';
+  }
 }
 let rhtml='';
-ROUTES.forEach((rt,i)=>{ rt.on=true; rhtml+='<label><input type="checkbox" data-i="'+i+'" checked> <span style="color:'+rt.color+'">&#9632;</span> '+esc(rt.name)+'</label>'; });
+ROUTES.forEach((rt,i)=>{
+  rt.on=true;
+  const fac=(rt.faction==='pirate')?ICON_SKULL:ICON_BOT;
+  rhtml+='<label><input type="checkbox" data-i="'+i+'" checked> <img class="raidIconList" src="'+fac+'" alt=""> <span style="color:'+rt.color+';border:1px solid rgba(255,255,255,.25)">&#9632;</span> '+esc(rt.name)+'</label>';
+});
 document.getElementById('routeList').innerHTML=rhtml;
 document.querySelectorAll('#routeList input').forEach(cb=>{
   cb.onchange=()=>{
@@ -367,6 +439,7 @@ document.getElementById('raidsOnCb').onchange=function(){
   refreshRoutes();
 };
 // #xenonList добавляет высоту над сеткой — пересчитать оверлей после его заполнения
+buildIcons();
 refreshRoutes();
 document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); });
 window.addEventListener('resize',function(){ refreshRoutes(); });
@@ -383,6 +456,8 @@ html_doc = (html_doc
             .replace("__COLORS__", colors_js)
             .replace("__ROUTES__", routes_js)
             .replace("__XENON__", xenon_js)
+            .replace("__ICON_BOT__", icon_bot_b64)
+            .replace("__ICON_SKULL__", icon_skull_b64)
             .replace("__LEADERLINE__", ll_js)
             .replace("__NSEC__", str(nsec))
             .replace("__NST__", str(nst))
