@@ -60,6 +60,10 @@ if os.path.exists(_rf):
     routes = json.load(open(_rf, encoding="utf-8")).get("routes", [])
 routes_js = json.dumps(routes, ensure_ascii=False)
 
+# ---------- leader-line (nice curved route lines, inlined for offline use) ----------
+_ll = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leader-line.min.js")
+ll_js = open(_ll, encoding="utf-8").read() if os.path.exists(_ll) else ""
+
 html_doc = """<!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
 <title>X3:TC — карта вселенной (offline)</title>
@@ -70,7 +74,6 @@ h1{font-size:16px;margin:0 0 6px}
 .wrap{max-width:100%}
 #scroller{overflow-x:auto;max-width:100%;transform:scaleY(-1)}
 #flip{transform:scaleY(-1)}
-#routes{position:absolute;left:0;top:0;pointer-events:none;z-index:5}
 #routeList label{display:inline-block;margin:0 12px 2px 0;cursor:pointer;font-size:11px;color:#dfe6f0}
 #routeList input{vertical-align:middle}
 #grid{border-collapse:collapse;table-layout:fixed;width:1920px}
@@ -107,9 +110,10 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
 </div>
 <div id="routeList"></div>
 <div class="wrap">
-<div id="scroller"><div id="flip"><table id="grid"></table><svg id="routes"></svg></div></div>
+<div id="scroller"><div id="flip"><table id="grid"></table></div></div>
 </div>
 <div id="detail"></div>
+<script>__LEADERLINE__</script>
 <script>
 const U = __DATA__;
 const COL = __COLORS__;
@@ -209,52 +213,60 @@ document.getElementById('legend').innerHTML=lg;
 const inp=document.getElementById('search'), cnt=document.getElementById('count');
 inp.oninput=()=>{
   const f=inp.value.trim().toLowerCase();
-  if(!f){ draw(null); cnt.textContent=''; return; }
+  if(!f){ draw(null); cnt.textContent=''; buildRoutes(); return; }
   let n=0; for(const id in U){ if(U[id].name.toLowerCase().indexOf(f)>=0) n++; }
   cnt.textContent='найдено: '+n;
   draw(f);
+  clearRoutes();
 };
 draw(null);
-// --- raid routes layer (military) ---
-const routesSvg=document.getElementById('routes');
-function drawRoutes(){
-  if(!routesSvg) return;
-  const tr=grid.getBoundingClientRect(), sr=routesSvg.getBoundingClientRect();
-  const cw=grid.offsetWidth/W, ch=grid.offsetHeight/H;
-  routesSvg.setAttribute('width',grid.offsetWidth);
-  routesSvg.setAttribute('height',grid.offsetHeight);
-  let defs='', body='';
+// --- raid routes layer (military, leader-line) ---
+const routeLines=[];
+function clearRoutes(){
+  for(const e of routeLines){ try{ e.line.remove(); }catch(err){} }
+  routeLines.length=0;
+}
+function buildRoutes(){
+  clearRoutes();
+  if(document.getElementById('search').value.trim()) return;
   const nRoutes=ROUTES.length;
-  ROUTES.forEach((rt,i)=>{
+  ROUTES.forEach((rt,ri)=>{
     if(!rt.on) return;
-    const off=(rt.offset!=null?rt.offset:(i-(nRoutes-1)/2)*12);
-    defs+='<marker id="ah'+i+'" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3.2 L0,6.4 z" fill="'+rt.color+'"/></marker>';
-    let prev=null;
-    for(const id of rt.sectors){
-      const r=U[id]; if(!r) continue;
-      const cx=tr.left-sr.left+(r.x+0.5)*cw, cy=tr.top-sr.top+(r.y+0.5)*ch;
-      if(prev){
-        const dx=cx-prev[0], dy=cy-prev[1], len=Math.hypot(dx,dy)||1;
-        const ux=dx/len, uy=dy/len;
-        const horiz=Math.abs(dx)>=Math.abs(dy);
-        const ox=horiz?0:off, oy=horiz?off:0;
-        const sx=prev[0]+ux*24+ox, sy=prev[1]+uy*24+oy;
-        const ex=cx-ux*30+ox, ey=cy-uy*30+oy;
-        body+='<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="rgba(0,0,0,.55)" stroke-width="6" stroke-linecap="round"/>';
-        body+='<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="'+rt.color+'" stroke-width="3" stroke-linecap="round" marker-end="url(#ah'+i+')"/>';
-      }
-      prev=[cx,cy];
+    const off=(rt.offset!=null?rt.offset:(ri-(nRoutes-1)/2)*12);
+    for(let k=0;k<rt.sectors.length-1;k++){
+      const idA=rt.sectors[k], idB=rt.sectors[k+1];
+      const a=grid.querySelector('td[data-id="'+idA+'"]');
+      const b=grid.querySelector('td[data-id="'+idB+'"]');
+      if(!a||!b) continue;
+      const ra=U[idA], rb=U[idB];
+      const horiz=Math.abs(rb.x-ra.x)>=Math.abs(rb.y-ra.y);
+      const ax=horiz?'50%':(off>0?'58%':'42%');
+      const ay=horiz?(off>0?'58%':'42%'):'50%';
+      const line=new LeaderLine(
+        LeaderLine.pointAnchor(a,{x:ax,y:ay}),
+        LeaderLine.pointAnchor(b,{x:ax,y:ay}),
+        {path:'arc', color:rt.color, size:3, endPlug:'arrow1', endPlugSize:1.6,
+         outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3}
+      );
+      routeLines.push({line:line, ri:ri});
     }
   });
-  routesSvg.innerHTML='<defs>'+defs+'</defs>'+body;
+}
+function refreshRoutes(){
+  for(const e of routeLines){ try{ e.line.position(); }catch(err){} }
 }
 let rhtml='';
 ROUTES.forEach((rt,i)=>{ rt.on=true; rhtml+='<label><input type="checkbox" data-i="'+i+'" checked> <span style="color:'+rt.color+'">&#9632;</span> '+esc(rt.name)+'</label>'; });
 document.getElementById('routeList').innerHTML=rhtml;
 document.querySelectorAll('#routeList input').forEach(cb=>{
-  cb.onchange=()=>{ ROUTES[+cb.dataset.i].on=cb.checked; drawRoutes(); };
+  cb.onchange=()=>{
+    ROUTES[+cb.dataset.i].on=cb.checked;
+    buildRoutes();
+  };
 });
-drawRoutes();
+buildRoutes();
+document.getElementById('scroller').addEventListener('scroll',function(){ refreshRoutes(); });
+window.addEventListener('resize',function(){ refreshRoutes(); });
 </script></body></html>
 """
 
@@ -267,6 +279,7 @@ html_doc = (html_doc
             .replace("__DATA__", data_js)
             .replace("__COLORS__", colors_js)
             .replace("__ROUTES__", routes_js)
+            .replace("__LEADERLINE__", ll_js)
             .replace("__NSEC__", str(nsec))
             .replace("__NST__", str(nst))
             .replace("__NAST__", str(nast))
