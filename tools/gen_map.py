@@ -53,6 +53,13 @@ RACE_COLORS = {
 data_js = json.dumps({str(k): v for k, v in u.items()}, ensure_ascii=False)
 colors_js = json.dumps(RACE_COLORS, ensure_ascii=False)
 
+# ---------- raid routes (military layer) ----------
+routes = []
+_rf = os.path.join(D, "routes.json")
+if os.path.exists(_rf):
+    routes = json.load(open(_rf, encoding="utf-8")).get("routes", [])
+routes_js = json.dumps(routes, ensure_ascii=False)
+
 html_doc = """<!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
 <title>X3:TC — карта вселенной (offline)</title>
@@ -63,6 +70,9 @@ h1{font-size:16px;margin:0 0 6px}
 .wrap{max-width:100%}
 #scroller{overflow-x:auto;max-width:100%;transform:scaleY(-1)}
 #flip{transform:scaleY(-1)}
+#routes{position:absolute;left:0;top:0;pointer-events:none;z-index:5}
+#routeList label{display:inline-block;margin:0 12px 2px 0;cursor:pointer;font-size:11px;color:#dfe6f0}
+#routeList input{vertical-align:middle}
 #grid{border-collapse:collapse;table-layout:fixed;width:1920px}
 #grid td{width:80px;height:80px;border:1px solid #1c2a44;vertical-align:top;padding:2px;overflow:hidden;cursor:pointer}
 #grid td.empty{background:#0C101D;cursor:default}
@@ -95,13 +105,15 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
  <input id="search" placeholder="поиск сектора...">
  <span id="count" style="color:#8fa3c0;font-size:11px;margin-left:8px"></span>
 </div>
+<div id="routeList"></div>
 <div class="wrap">
-<div id="scroller"><div id="flip"><table id="grid"></table></div></div>
+<div id="scroller"><div id="flip"><table id="grid"></table><svg id="routes"></svg></div></div>
 </div>
 <div id="detail"></div>
 <script>
 const U = __DATA__;
 const COL = __COLORS__;
+const ROUTES = __ROUTES__;
 const W=24, H=20;
 const grid=document.getElementById('grid');
 const det=document.getElementById('detail');
@@ -203,6 +215,41 @@ inp.oninput=()=>{
   draw(f);
 };
 draw(null);
+// --- raid routes layer (military) ---
+const routesSvg=document.getElementById('routes');
+function drawRoutes(){
+  if(!routesSvg) return;
+  const tr=grid.getBoundingClientRect(), sr=routesSvg.getBoundingClientRect();
+  const cw=grid.offsetWidth/W, ch=grid.offsetHeight/H;
+  routesSvg.setAttribute('width',grid.offsetWidth);
+  routesSvg.setAttribute('height',grid.offsetHeight);
+  let defs='', body='';
+  ROUTES.forEach((rt,i)=>{
+    if(!rt.on) return;
+    defs+='<marker id="ah'+i+'" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3.2 L0,6.4 z" fill="'+rt.color+'"/></marker>';
+    let prev=null;
+    for(const id of rt.sectors){
+      const r=U[id]; if(!r) continue;
+      const cx=tr.left-sr.left+(r.x+0.5)*cw, cy=tr.top-sr.top+(r.y+0.5)*ch;
+      if(prev){
+        const dx=cx-prev[0], dy=cy-prev[1], len=Math.hypot(dx,dy)||1;
+        const sx=prev[0]+dx/len*24, sy=prev[1]+dy/len*24;
+        const ex=cx-dx/len*30, ey=cy-dy/len*30;
+        body+='<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="rgba(0,0,0,.55)" stroke-width="6" stroke-linecap="round"/>';
+        body+='<line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="'+rt.color+'" stroke-width="3" stroke-linecap="round" marker-end="url(#ah'+i+')"/>';
+      }
+      prev=[cx,cy];
+    }
+  });
+  routesSvg.innerHTML='<defs>'+defs+'</defs>'+body;
+}
+let rhtml='';
+ROUTES.forEach((rt,i)=>{ rt.on=true; rhtml+='<label><input type="checkbox" data-i="'+i+'" checked> <span style="color:'+rt.color+'">&#9632;</span> '+esc(rt.name)+'</label>'; });
+document.getElementById('routeList').innerHTML=rhtml;
+document.querySelectorAll('#routeList input').forEach(cb=>{
+  cb.onchange=()=>{ ROUTES[+cb.dataset.i].on=cb.checked; drawRoutes(); };
+});
+drawRoutes();
 </script></body></html>
 """
 
@@ -214,6 +261,7 @@ ngate = sum(1 for r in u.values() for g in r["gates"].values() if g)
 html_doc = (html_doc
             .replace("__DATA__", data_js)
             .replace("__COLORS__", colors_js)
+            .replace("__ROUTES__", routes_js)
             .replace("__NSEC__", str(nsec))
             .replace("__NST__", str(nst))
             .replace("__NAST__", str(nast))
