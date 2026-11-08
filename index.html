@@ -206,10 +206,10 @@ function placeRouteLabels(){
     L.el.style.display='';
     const mx=(ax+bx)/2+window.scrollX, my=(ay+by)/2+window.scrollY;
     if(an.type==='sector'){
-      // подпись на клетке сектора
-      L.el.style.transform='translate(-50%,-50%)';
+      // подпись на клетке сектора, ниже линии (как у обычных маршрутов)
+      L.el.style.transform='translate(-50%,0)';
       L.el.style.left=mx+'px';
-      L.el.style.top=my+'px';
+      L.el.style.top=(my+10)+'px';
     } else if(Math.abs(by-ay) > Math.abs(bx-ax)){
       // вертикальный сегмент: подпись сбоку, чтобы не пересекать линию
       L.el.style.transform='translate(0,-50%)';
@@ -242,7 +242,7 @@ function buildRoutes(){
         outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3
       });
       routeLines.push({line:line, ri:ri});
-      makeRouteLabel('рейд '+(ri+1), anchor || {type:'between', a:rt.sectors[0], b:rt.sectors[rt.sectors.length-1]});
+      makeRouteLabel('Рейд '+(ri+1), anchor || {type:'between', a:rt.sectors[0], b:rt.sectors[rt.sectors.length-1]});
       return;
     }
     // chain: one segment per hop, square plugs on both ends
@@ -262,7 +262,7 @@ function buildRoutes(){
         opts
       );
       routeLines.push({line:line, ri:ri});
-      if(k===mid){ makeRouteLabel('рейд '+(ri+1), anchor || {type:'between', a:rt.sectors[k], b:rt.sectors[k+1]}); }
+      if(k===mid){ makeRouteLabel('Рейд '+(ri+1), anchor || {type:'between', a:rt.sectors[k], b:rt.sectors[k+1]}); }
     }
   });
   placeRouteLabels();
