@@ -408,8 +408,8 @@ function buildIcons(){
     img.src=isXen?ICON_BOT:ICON_SKULL;
     img.className='raidIcon';
     const icType=isXen?'bot':'skull';
-    img.width=(icType==='bot')?30:22;
-    img.height=(icType==='bot')?30:22;
+    img.width=22;
+    img.height=22;
     img.alt='';
     document.body.appendChild(img);
     iconMarkers.push({el:img, id:id, icon:icType});
@@ -422,15 +422,9 @@ function placeIcons(){
     if(!td){ m.el.style.display='none'; continue; }
     m.el.style.display='';
     const r=td.getBoundingClientRect();
-    if(m.icon==='skull'){
-      // ниже и правее в клетке
-      m.el.style.left=(r.right-26+window.scrollX)+'px';
-      m.el.style.top=(r.bottom-26+window.scrollY)+'px';
-    } else {
-      const cx=r.left+r.width/2+window.scrollX, cy=r.top+r.height/2+window.scrollY;
-      m.el.style.left=(cx-15)+'px';
-      m.el.style.top=(cy-15)+'px';
-    }
+    // ниже и правее в клетке
+    m.el.style.left=(r.right-26+window.scrollX)+'px';
+    m.el.style.top=(r.bottom-26+window.scrollY)+'px';
   }
 }
 let rhtml='';
