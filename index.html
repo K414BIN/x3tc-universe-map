@@ -177,14 +177,15 @@ function buildRoutes(){
       if(!a||!b) return;
       const line=new LeaderLine(a,b,{
         path:'fluid', color:rt.color, size:3,
-        endPlug:'arrow1', endPlugSize:1.6,
+        startPlug:'square', endPlug:'square',
+        startPlugOutline:true, endPlugOutline:true,
         outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3,
         middleLabel: LeaderLine.pathLabel(rt.name, labelOpts)
       });
       routeLines.push({line:line, ri:ri});
       return;
     }
-    // chain: one segment per hop, plugs hidden except the final arrowhead
+    // chain: one segment per hop, square plugs on both ends
     const nSeg=rt.sectors.length-1;
     const mid=Math.floor(nSeg/2);
     for(let k=0;k<nSeg;k++){
@@ -192,9 +193,9 @@ function buildRoutes(){
       const b=grid.querySelector('td[data-id="'+rt.sectors[k+1]+'"]');
       if(!a||!b) continue;
       const opts={path:'fluid', color:rt.color, size:3,
-                  startPlug:'behind', endPlug:'behind',
+                  startPlug:'square', endPlug:'square',
+                  startPlugOutline:true, endPlugOutline:true,
                   outline:true, outlineColor:'rgba(0,0,0,0.7)', outlineSize:0.3};
-      if(k===nSeg-1){ opts.endPlug='arrow1'; opts.endPlugSize=1.6; }
       if(k===mid){ opts.middleLabel=LeaderLine.pathLabel(rt.name, labelOpts); }
       const line=new LeaderLine(
         LeaderLine.pointAnchor(a,{x:'50%',y:'50%'}),
