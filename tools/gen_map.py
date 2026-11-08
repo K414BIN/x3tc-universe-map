@@ -254,7 +254,7 @@ function clearRoutes(){
 function makeRouteLabel(text, aId, bId){
   const div=document.createElement('div');
   div.textContent=text;
-  div.style.cssText='position:absolute;z-index:5;pointer-events:none;color:#fff;font-size:11px;font-family:Tahoma,Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.9);transform:translate(-50%,0);white-space:nowrap;';
+  div.style.cssText='position:absolute;z-index:5;pointer-events:none;color:#fff;font-size:11px;font-family:Tahoma,Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.9);white-space:nowrap;';
   document.body.appendChild(div);
   routeLabels.push({el:div, a:aId, b:bId});
 }
@@ -265,10 +265,20 @@ function placeRouteLabels(){
     if(!a||!b){ L.el.style.display='none'; continue; }
     L.el.style.display='';
     const ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
-    const mx=(ra.left+ra.width/2+rb.left+rb.width/2)/2+window.scrollX;
-    const my=(ra.top+ra.height/2+rb.top+rb.height/2)/2+window.scrollY;
-    L.el.style.left=mx+'px';
-    L.el.style.top=(my+10)+'px';
+    const ax=ra.left+ra.width/2, ay=ra.top+ra.height/2;
+    const bx=rb.left+rb.width/2, by=rb.top+rb.height/2;
+    const mx=(ax+bx)/2+window.scrollX, my=(ay+by)/2+window.scrollY;
+    if(Math.abs(by-ay) > Math.abs(bx-ax)){
+      // вертикальный сегмент: подпись сбоку, чтобы не пересекать линию
+      L.el.style.transform='translate(0,-50%)';
+      L.el.style.left=(mx+12)+'px';
+      L.el.style.top=my+'px';
+    } else {
+      // горизонтальный: подпись под линией
+      L.el.style.transform='translate(-50%,0)';
+      L.el.style.left=mx+'px';
+      L.el.style.top=(my+10)+'px';
+    }
   }
 }
 function buildRoutes(){
