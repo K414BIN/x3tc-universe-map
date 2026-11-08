@@ -5,7 +5,9 @@
 body{background:#0C101D;color:#dfe6f0;font-family:Tahoma,Arial,sans-serif;font-size:13px;margin:0;padding:10px}
 h1{font-size:16px;margin:0 0 6px}
 .sub{color:#8fa3c0;font-size:11px;margin-bottom:10px}
-.wrap{display:flex;gap:14px;align-items:flex-start}
+.wrap{max-width:100%}
+#scroller{overflow-x:auto;max-width:100%;transform:scaleY(-1)}
+#flip{transform:scaleY(-1)}
 #grid{border-collapse:collapse;table-layout:fixed;width:1920px}
 #grid td{width:80px;height:80px;border:1px solid #1c2a44;vertical-align:top;padding:2px;overflow:hidden;cursor:pointer}
 #grid td.empty{background:#0C101D;cursor:default}
@@ -39,7 +41,7 @@ summary{cursor:pointer;color:#9fb4d4;font-size:11px}
  <span id="count" style="color:#8fa3c0;font-size:11px;margin-left:8px"></span>
 </div>
 <div class="wrap">
-<div style="overflow:auto;max-width:100%"><table id="grid"></table></div>
+<div id="scroller"><div id="flip"><table id="grid"></table></div></div>
 </div>
 <div id="detail"></div>
 <script>
